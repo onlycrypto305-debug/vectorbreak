@@ -1,13 +1,12 @@
 # Netlify config for the Vectorbreak static export.
-# Lives in public/ so the build copies it into out/ — picked up automatically
-# when the directory is drag-dropped to Netlify Drop, AND honored when the
-# same out/ is published via a git-linked deploy.
-
-[build]
-  # Reference values for when this is wired to a git auto-deploy. Drag-drop
-  # ignores [build] but it's here so the future git deploy works without edits.
-  command = "npm run build"
-  publish = "out"
+# Lives in public/ so the build copies it into out/ — Netlify picks it up
+# from the uploaded directory when you drag-drop the folder/zip.
+#
+# DO NOT add a [build] section here. Drag-drop uploads ARE the build
+# output — Netlify reads this toml and, if [build] is present, tries to
+# rebuild inside the uploaded dir, which has no package.json. That fails.
+# For git-linked auto-deploy later, configure command + publish in the
+# Netlify UI (Site settings → Build & deploy) instead.
 
 # --- Caching ---------------------------------------------------------------
 
