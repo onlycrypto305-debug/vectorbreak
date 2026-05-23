@@ -1,26 +1,118 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
+/* =====================================================================
+   Vectorbreak v2 — design tokens
+   Apple-style palette + Inter Tight / Inter / JetBrains Mono via next/font.
+   ===================================================================== */
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-paper: #FBFBFD;
+  --color-paper2: #F5F5F7;
+  --color-bg: #000000;
+  --color-bg2: #0D0D0F;
+  --color-ink: #1D1D1F;
+  --color-textl: #F5F5F7;
+  --color-mute: #6E6E73;
+  --color-mute2: #86868B;
+  --color-rule: #D2D2D7;
+  --color-rule-dark: #2A2A2D;
+  --color-gold: #B8852E;
+  --color-gold-hover: #9B7026;
+  --color-gold-light: #D4A24E;
+  --color-gold-bright: #E8BC65;
+
+  --font-display: var(--font-inter-tight);
+  --font-sans: var(--font-inter);
+  --font-mono: var(--font-jetbrains-mono);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+* {
+  border-radius: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+  background: var(--color-bg);
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--color-paper);
+  color: var(--color-ink);
+  font-family: var(--font-sans), -apple-system, BlinkMacSystemFont, sans-serif;
+  font-size: 17px;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  font-feature-settings: "kern", "liga", "calt", "ss01";
+}
+
+::selection {
+  background: var(--color-ink);
+  color: var(--color-textl);
+}
+
+/* Lenis hooks */
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+
+.lenis.lenis-smooth [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+
+.lenis.lenis-stopped {
+  overflow: clip;
+}
+
+/* Type scale */
+.h-eyebrow {
+  font-family: var(--font-mono), Consolas, monospace;
+  font-size: 0.72rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  font-weight: 500;
+  color: var(--color-mute2);
+}
+
+.h-hero {
+  font-family: var(--font-display), -apple-system, sans-serif;
+  font-weight: 300;
+  letter-spacing: -0.045em;
+  line-height: 1.02;
+  font-size: clamp(3rem, 9vw, 7.5rem);
+}
+
+.h-mega {
+  font-family: var(--font-display), -apple-system, sans-serif;
+  font-weight: 300;
+  letter-spacing: -0.04em;
+  line-height: 1.05;
+  font-size: clamp(2.75rem, 7vw, 6rem);
+}
+
+.h-section {
+  font-family: var(--font-display), -apple-system, sans-serif;
+  font-weight: 500;
+  letter-spacing: -0.028em;
+  line-height: 1.08;
+  font-size: clamp(2rem, 4.5vw, 3.5rem);
+}
+
+.h-sub {
+  font-family: var(--font-display), -apple-system, sans-serif;
+  font-weight: 400;
+  letter-spacing: -0.02em;
+  line-height: 1.25;
+  font-size: clamp(1.25rem, 1.8vw, 1.6rem);
+}
+
+p.lead {
+  font-size: 1.25rem;
+  line-height: 1.5;
+  color: #424245;
 }
