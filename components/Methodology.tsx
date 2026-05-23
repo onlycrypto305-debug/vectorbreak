@@ -116,13 +116,20 @@ export function Methodology() {
           </ul>
         </div>
 
-        <div className="mt-16">
+        <div className="mt-16 flex flex-wrap justify-center gap-x-8 gap-y-3">
           <a
-            href="mailto:Lance@vectorbreak.com?subject=Five%20Surfaces%20methodology%20request"
+            href="/methodology"
             className="inline-flex items-center gap-1 hover:gap-2 transition-all text-sm font-medium"
             style={{ color: "var(--color-gold)" }}
           >
-            Request the full paper &rarr;
+            Read the full methodology &rarr;
+          </a>
+          <a
+            href="mailto:Lance@vectorbreak.com?subject=Five%20Surfaces%20methodology%20request"
+            className="inline-flex items-center gap-1 hover:gap-2 transition-all text-sm font-medium"
+            style={{ color: "var(--color-mute2)" }}
+          >
+            Or request the full paper &rarr;
           </a>
         </div>
       </div>
