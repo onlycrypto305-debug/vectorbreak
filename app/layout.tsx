@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { Inter, Inter_Tight, JetBrains_Mono } from "next/font/google";
 import { LenisProvider } from "@/components/LenisProvider";
+import { ScrollProgress } from "@/components/ScrollProgress";
 import { SiteHeader } from "@/components/SiteHeader";
 import "./globals.css";
 
@@ -56,6 +57,7 @@ export default function RootLayout({
     >
       <body className="min-h-full flex flex-col">
         <LenisProvider>
+          <ScrollProgress />
           <SiteHeader />
           {children}
         </LenisProvider>

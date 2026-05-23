@@ -1,4 +1,8 @@
+"use client";
+
 import Link from "next/link";
+import { motion, useMotionValueEvent, useScroll } from "framer-motion";
+import { useState } from "react";
 
 const NAV_LINKS = [
   { href: "#methodology", label: "Methodology" },
@@ -9,18 +13,34 @@ const NAV_LINKS = [
 ];
 
 /**
- * Apple-thin sticky nav. Backdrop blur over translucent paper background.
- * Logo on left, section links center (desktop only), Scope CTA on right.
+ * Apple-thin sticky nav. Background and gold underline glow strengthen
+ * once the user scrolls past the hero, cueing "you are in the content now".
  */
 export function SiteHeader() {
+  const [scrolled, setScrolled] = useState(false);
+  const { scrollY } = useScroll();
+  useMotionValueEvent(scrollY, "change", (y) => {
+    setScrolled(y > 80);
+  });
+
   return (
-    <header
+    <motion.header
       className="sticky top-0 z-50 border-b"
+      animate={{
+        backgroundColor: scrolled
+          ? "rgba(251, 251, 253, 0.92)"
+          : "rgba(251, 251, 253, 0.62)",
+        borderBottomColor: scrolled
+          ? "rgba(184, 133, 46, 0.18)"
+          : "rgba(210, 210, 215, 0.6)",
+        boxShadow: scrolled
+          ? "0 1px 0 rgba(184, 133, 46, 0.18), 0 8px 32px -8px rgba(0, 0, 0, 0.08)"
+          : "0 0 0 rgba(0, 0, 0, 0)",
+      }}
+      transition={{ duration: 0.35, ease: [0.32, 0.72, 0, 1] }}
       style={{
         backdropFilter: "saturate(180%) blur(20px)",
         WebkitBackdropFilter: "saturate(180%) blur(20px)",
-        background: "rgba(251, 251, 253, 0.72)",
-        borderColor: "var(--color-rule)",
       }}
     >
       <div className="max-w-6xl mx-auto px-6 lg:px-8 h-12 flex items-center justify-between">
@@ -70,6 +90,6 @@ export function SiteHeader() {
           Scope engagement &rarr;
         </a>
       </div>
-    </header>
+    </motion.header>
   );
 }

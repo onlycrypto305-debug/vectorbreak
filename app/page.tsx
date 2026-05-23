@@ -7,6 +7,7 @@ import { Pricing } from "@/components/Pricing";
 import { Founder } from "@/components/Founder";
 import { Community } from "@/components/Community";
 import { Contact } from "@/components/Contact";
+import { SectionDivider } from "@/components/SectionDivider";
 import { SiteFooter } from "@/components/SiteFooter";
 
 export default function Home() {
@@ -14,13 +15,21 @@ export default function Home() {
     <>
       <main className="flex-1">
         <Hero />
+        <SectionDivider />
         <SpecStats />
+        <SectionDivider />
         <Methodology />
+        <SectionDivider />
         <Receipts />
+        <SectionDivider />
         <Services />
+        <SectionDivider />
         <Pricing />
+        <SectionDivider />
         <Founder />
+        <SectionDivider />
         <Community />
+        <SectionDivider />
         <Contact />
       </main>
       <SiteFooter />

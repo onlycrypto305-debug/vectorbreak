@@ -89,8 +89,10 @@ function Counter({ target, label }: { target: number; label: string }) {
       return;
     }
     const controls = animate(0, target, {
-      duration: 1.5,
-      ease: [0, 0, 0.2, 1],
+      type: "spring",
+      stiffness: 60,
+      damping: 14,
+      mass: 0.9,
       onUpdate: (v) => setValue(Math.round(v)),
     });
     return () => controls.stop();

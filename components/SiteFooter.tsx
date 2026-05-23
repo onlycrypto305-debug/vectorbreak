@@ -1,3 +1,5 @@
+import { FooterConstellation } from "@/components/FooterConstellation";
+
 const FOOTER_COLS = [
   {
     title: "Services",
@@ -32,13 +34,14 @@ const FOOTER_COLS = [
 export function SiteFooter() {
   return (
     <footer
-      className="border-t"
+      className="relative border-t overflow-hidden"
       style={{
         background: "var(--color-paper2)",
         borderColor: "var(--color-rule)",
       }}
     >
-      <div className="max-w-6xl mx-auto px-6 lg:px-8 py-16">
+      <FooterConstellation />
+      <div className="relative z-10 max-w-6xl mx-auto px-6 lg:px-8 py-16">
         <div className="grid md:grid-cols-5 gap-10">
           <div className="md:col-span-2">
             <div className="flex items-center gap-2.5">
