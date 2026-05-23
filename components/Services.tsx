@@ -1,4 +1,14 @@
+"use client";
+
+import {
+  motion,
+  useMotionValue,
+  useSpring,
+  useTransform,
+} from "framer-motion";
+import { useRef } from "react";
 import { Reveal } from "@/components/Reveal";
+import { WordCascade } from "@/components/WordCascade";
 
 interface Service {
   letter: string;
@@ -58,26 +68,33 @@ export function Services() {
       }}
     >
       <div className="max-w-6xl mx-auto px-6 lg:px-8">
-        <Reveal className="text-center">
-          <p className="h-eyebrow">SERVICES · FOUR PILLARS</p>
+        <div className="text-center">
+          <Reveal>
+            <p className="h-eyebrow">SERVICES · FOUR PILLARS</p>
+          </Reveal>
           <h2 className="h-mega mt-8" style={{ color: "var(--color-ink)" }}>
-            Audit. Train. Build.
-            <br />
-            <span style={{ color: "var(--color-mute2)" }}>
-              Plus an active community.
-            </span>
+            <WordCascade as="div" text="Audit. Train. Build." />
+            <WordCascade
+              as="div"
+              text="Plus an active community."
+              delay={0.3}
+              style={{ color: "var(--color-mute2)" }}
+            />
           </h2>
-          <p className="lead mt-10 mx-auto max-w-2xl">
-            Four ways to engage Vectorbreak Security, depending on the decision
-            you&rsquo;re driving and the team you already have in place.
-          </p>
-        </Reveal>
+          <Reveal delay={0.7}>
+            <p className="lead mt-10 mx-auto max-w-2xl">
+              Four ways to engage Vectorbreak Security, depending on the decision
+              you&rsquo;re driving and the team you already have in place.
+            </p>
+          </Reveal>
+        </div>
 
         <div
           className="mt-20 grid md:grid-cols-2 lg:grid-cols-4 gap-px border"
           style={{
             background: "var(--color-rule)",
             borderColor: "var(--color-rule)",
+            perspective: "1200px",
           }}
         >
           {SERVICES.map((s) => (
@@ -97,12 +114,63 @@ function ServiceCard({ service: s }: { service: Service }) {
   const titleColor = s.onDark ? "var(--color-textl)" : "var(--color-ink)";
   const descColor = s.onDark ? "#A1A1A6" : "var(--color-mute)";
   const tagColor = s.onDark ? "var(--color-mute2)" : "var(--color-mute2)";
+  const ctaColor = s.onDark
+    ? "var(--color-gold-light)"
+    : "var(--color-gold)";
+
+  const ref = useRef<HTMLElement>(null);
+  // Cursor position normalized to -1..1 inside the card
+  const px = useMotionValue(0);
+  const py = useMotionValue(0);
+  const spx = useSpring(px, { stiffness: 200, damping: 22, mass: 0.4 });
+  const spy = useSpring(py, { stiffness: 200, damping: 22, mass: 0.4 });
+  const rotateY = useTransform(spx, [-1, 1], [-8, 8]);
+  const rotateX = useTransform(spy, [-1, 1], [6, -6]);
+
+  // Cursor-following gold gradient sheen
+  const sheenBg = useTransform(() => {
+    const gx = (spx.get() * 0.5 + 0.5) * 100;
+    const gy = (spy.get() * 0.5 + 0.5) * 100;
+    const color = s.onDark
+      ? "rgba(212, 162, 78, 0.18)"
+      : "rgba(184, 133, 46, 0.10)";
+    return `radial-gradient(circle at ${gx}% ${gy}%, ${color}, transparent 55%)`;
+  });
+
+  const onMove = (e: React.PointerEvent) => {
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    const el = ref.current;
+    if (!el) return;
+    const r = el.getBoundingClientRect();
+    px.set(((e.clientX - r.left) / r.width - 0.5) * 2);
+    py.set(((e.clientY - r.top) / r.height - 0.5) * 2);
+  };
+  const onLeave = () => {
+    px.set(0);
+    py.set(0);
+  };
 
   return (
-    <article
-      className="p-8 lg:p-10 h-full flex flex-col border border-transparent transition-transform hover:-translate-y-1"
-      style={{ background: bg }}
+    <motion.article
+      ref={ref}
+      onPointerMove={onMove}
+      onPointerLeave={onLeave}
+      className="relative p-8 lg:p-10 h-full flex flex-col"
+      style={{
+        background: bg,
+        rotateX,
+        rotateY,
+        transformStyle: "preserve-3d",
+        transformPerspective: 1200,
+      }}
     >
+      {/* Cursor-following gold gradient sheen */}
+      <motion.div
+        aria-hidden="true"
+        className="absolute inset-0 opacity-0 transition-opacity duration-300 pointer-events-none group-hover:opacity-100 hover:opacity-100"
+        style={{ background: sheenBg }}
+        whileHover={{ opacity: 1 }}
+      />
       <div
         style={{
           fontFamily: "var(--font-display)",
@@ -112,6 +180,7 @@ function ServiceCard({ service: s }: { service: Service }) {
           lineHeight: 1,
           marginBottom: "1.75rem",
           letterSpacing: "-0.03em",
+          transform: "translateZ(20px)",
         }}
       >
         {s.letter}
@@ -138,6 +207,7 @@ function ServiceCard({ service: s }: { service: Service }) {
           letterSpacing: "-0.022em",
           color: titleColor,
           lineHeight: 1.18,
+          transform: "translateZ(15px)",
         }}
       >
         {s.title}
@@ -155,12 +225,10 @@ function ServiceCard({ service: s }: { service: Service }) {
       <a
         href={s.cta.href}
         className="mt-7 inline-flex items-center gap-1 hover:gap-2 transition-all text-sm font-medium"
-        style={{
-          color: s.onDark ? "var(--color-gold-light)" : "var(--color-gold)",
-        }}
+        style={{ color: ctaColor }}
       >
         {s.cta.label}
       </a>
-    </article>
+    </motion.article>
   );
 }

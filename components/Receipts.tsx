@@ -1,4 +1,8 @@
+"use client";
+
+import { motion } from "framer-motion";
 import { Reveal } from "@/components/Reveal";
+import { WordCascade } from "@/components/WordCascade";
 
 interface Receipt {
   n: string;
@@ -81,27 +85,34 @@ export function Receipts() {
       }}
     >
       <div className="max-w-6xl mx-auto px-6 lg:px-8">
-        <Reveal className="text-center">
-          <p className="h-eyebrow" style={{ color: "var(--color-mute2)" }}>
-            PUBLIC CASE STUDIES
-          </p>
+        <div className="text-center">
+          <Reveal>
+            <p className="h-eyebrow" style={{ color: "var(--color-mute2)" }}>
+              PUBLIC CASE STUDIES
+            </p>
+          </Reveal>
           <h2 className="h-mega mt-8" style={{ color: "var(--color-textl)" }}>
-            Methodology
-            <br />
-            validated against
-            <br />
-            <span style={{ color: "var(--color-mute2)" }}>named targets.</span>
+            <WordCascade as="div" text="Methodology" />
+            <WordCascade as="div" text="validated against" delay={0.2} />
+            <WordCascade
+              as="div"
+              text="named targets."
+              delay={0.4}
+              style={{ color: "var(--color-mute2)" }}
+            />
           </h2>
-          <p
-            className="lead mt-10 mx-auto max-w-2xl"
-            style={{ color: "#A1A1A6" }}
-          >
-            Eight published assessments. Six PASS verdicts on Claude-family
-            hosts. Two FAIL verdicts on cross-family direct-to-model targets —
-            the empirical property that auditors, insurers, and acquirers need
-            to see before they accept a methodology as evidence-grade.
-          </p>
-        </Reveal>
+          <Reveal delay={0.8}>
+            <p
+              className="lead mt-10 mx-auto max-w-2xl"
+              style={{ color: "#A1A1A6" }}
+            >
+              Eight published assessments. Six PASS verdicts on Claude-family
+              hosts. Two FAIL verdicts on cross-family direct-to-model targets —
+              the empirical property that auditors, insurers, and acquirers need
+              to see before they accept a methodology as evidence-grade.
+            </p>
+          </Reveal>
+        </div>
 
         <div className="mt-20 max-w-5xl mx-auto overflow-x-auto">
           <table className="w-full border-collapse">
@@ -116,11 +127,19 @@ export function Receipts() {
                 </Th>
               </tr>
             </thead>
-            <tbody>
+            <motion.tbody
+              initial="hidden"
+              whileInView="show"
+              viewport={{ once: true, amount: 0.15 }}
+              variants={{
+                hidden: {},
+                show: { transition: { staggerChildren: 0.06 } },
+              }}
+            >
               {RECEIPTS.map((r) => (
                 <ReceiptRow key={r.n} r={r} />
               ))}
-            </tbody>
+            </motion.tbody>
           </table>
         </div>
 
@@ -166,9 +185,17 @@ function Th({
 
 function ReceiptRow({ r }: { r: Receipt }) {
   return (
-    <tr
+    <motion.tr
       className="transition-colors hover:bg-[var(--color-bg2)]"
       style={{ borderBottom: "1px solid var(--color-rule-dark)" }}
+      variants={{
+        hidden: { opacity: 0, y: 12 },
+        show: {
+          opacity: 1,
+          y: 0,
+          transition: { duration: 0.7, ease: [0.32, 0.72, 0, 1] },
+        },
+      }}
     >
       <Td mono>{r.n}</Td>
       <Td>
@@ -190,7 +217,7 @@ function ReceiptRow({ r }: { r: Receipt }) {
       <Td align="right">
         <Verdict v={r.verdict} />
       </Td>
-    </tr>
+    </motion.tr>
   );
 }
 

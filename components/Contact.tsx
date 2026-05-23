@@ -1,4 +1,6 @@
 import { Reveal } from "@/components/Reveal";
+import { WordCascade } from "@/components/WordCascade";
+import { MagneticPill } from "@/components/MagneticPill";
 
 export function Contact() {
   return (
@@ -16,16 +18,17 @@ export function Contact() {
           <p className="h-eyebrow" style={{ color: "var(--color-mute2)" }}>
             SCOPE AN ENGAGEMENT
           </p>
-          <h2 className="h-hero mt-10" style={{ color: "var(--color-textl)" }}>
-            Two questions.
-            <br />
-            Forty-eight&nbsp;hours.
-            <br />
-            <span style={{ color: "var(--color-mute2)" }}>
-              One fixed-fee&nbsp;proposal.
-            </span>
-          </h2>
         </Reveal>
+        <h2 className="h-hero mt-10" style={{ color: "var(--color-textl)" }}>
+          <WordCascade as="div" text="Two questions." />
+          <WordCascade as="div" text="Forty-eight hours." delay={0.2} />
+          <WordCascade
+            as="div"
+            text="One fixed-fee proposal."
+            delay={0.4}
+            style={{ color: "var(--color-mute2)" }}
+          />
+        </h2>
 
         <div className="mt-20 grid md:grid-cols-2 gap-12 text-left">
           <div>
@@ -61,7 +64,7 @@ export function Contact() {
         </div>
 
         <div className="mt-20 flex flex-wrap justify-center gap-4">
-          <a
+          <MagneticPill
             href="mailto:Lance@vectorbreak.com?subject=Vectorbreak%20Security%20engagement%20enquiry"
             className="inline-flex items-center gap-2 px-6 py-3 text-sm font-medium transition-colors hover:opacity-90"
             style={{
@@ -71,7 +74,7 @@ export function Contact() {
             }}
           >
             Lance@vectorbreak.com
-          </a>
+          </MagneticPill>
           <a
             href="#community"
             className="inline-flex items-center gap-2 px-6 py-3 text-sm font-medium transition-colors hover:bg-[var(--color-textl)] hover:text-[var(--color-ink)]"

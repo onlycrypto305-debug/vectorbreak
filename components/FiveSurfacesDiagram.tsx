@@ -13,8 +13,13 @@ import {
   MeshBasicMaterial,
   RingGeometry,
   SphereGeometry,
+  Vector2,
   Vector3,
 } from "three";
+import { EffectComposer } from "three/examples/jsm/postprocessing/EffectComposer.js";
+import { RenderPass } from "three/examples/jsm/postprocessing/RenderPass.js";
+import { UnrealBloomPass } from "three/examples/jsm/postprocessing/UnrealBloomPass.js";
+import { OutputPass } from "three/examples/jsm/postprocessing/OutputPass.js";
 import { createScene } from "@/lib/three/createScene";
 
 const SURFACES = [
@@ -29,11 +34,14 @@ const ORBIT_RADIUS = 2.4;
 const TILT_DEG = 22;
 
 /**
- * 3D Five Surfaces diagram.
+ * 3D Five Surfaces diagram with bloom post-processing.
  *
- * Three.js: central dark core + 5 gold orbital nodes + spokes + 2 wireframe rings.
- * HTML overlay: per-node labels (code + short name) positioned each frame via
- * camera projection so they track the rotating scene.
+ * - Central dark core (the AI agent), thin gold core ring
+ * - 5 gold orbital nodes, glowing via UnrealBloomPass
+ * - Gold spokes connecting nodes to core
+ * - 2 faint outer wireframe rings for depth
+ * - Slow rotation + scroll-tied rotation delta
+ * - HTML overlay labels positioned via camera projection
  */
 export function FiveSurfacesDiagram() {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -49,6 +57,8 @@ export function FiveSurfacesDiagram() {
       "(prefers-reduced-motion: reduce)",
     ).matches;
 
+    // Create scene using the shared factory. We will NOT call handle.start()
+    // because we need to drive rendering through EffectComposer.
     const handle = createScene({ canvas, fov: 45 });
     handle.camera.position.set(0, 0.6, 6.2);
     handle.camera.lookAt(0, 0, 0);
@@ -79,8 +89,9 @@ export function FiveSurfacesDiagram() {
     for (let i = 0; i < SURFACES.length; i++) {
       const angle = (i / SURFACES.length) * Math.PI * 2 - Math.PI / 2;
       const node = new Mesh(
-        new SphereGeometry(0.22, 32, 32),
-        new MeshBasicMaterial({ color: new Color("#D4A24E") }),
+        new SphereGeometry(0.24, 32, 32),
+        // Slightly hotter color for bloom threshold to bite — gold #E8BC65
+        new MeshBasicMaterial({ color: new Color("#E8BC65") }),
       );
       node.position.set(
         Math.cos(angle) * ORBIT_RADIUS,
@@ -125,21 +136,52 @@ export function FiveSurfacesDiagram() {
       root.add(ring);
     }
 
-    // Reusable Vector3 to avoid per-frame allocations.
-    const worldPos = new Vector3();
+    // --- Post-processing: EffectComposer + UnrealBloom ---
+    const composer = new EffectComposer(handle.renderer);
+    composer.addPass(new RenderPass(handle.scene, handle.camera));
+    const bloomPass = new UnrealBloomPass(
+      new Vector2(canvas.clientWidth, canvas.clientHeight),
+      0.9, // strength
+      0.7, // radius
+      0.32, // threshold — gold nodes are above, dark core/grey rings below
+    );
+    composer.addPass(bloomPass);
+    composer.addPass(new OutputPass());
 
+    const setComposerSize = () => {
+      const w = canvas.clientWidth;
+      const h = canvas.clientHeight;
+      composer.setSize(w, h);
+      composer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    };
+    setComposerSize();
+    window.addEventListener("resize", setComposerSize);
+
+    // --- Custom RAF loop using composer (instead of handle.start) ---
+    const worldPos = new Vector3();
     let baseRotation = 0;
     const scrollFactor = 0.0008;
     const containerTop = () => container.getBoundingClientRect().top;
 
-    handle.start((time) => {
+    let rafId = 0;
+    const start = performance.now();
+    const loop = (now: number) => {
+      const t = (now - start) / 1000;
       if (!reducedMotion) {
-        baseRotation = time * 0.12;
+        baseRotation = t * 0.12;
       }
       const scrollDelta = -containerTop() * scrollFactor;
       root.rotation.y = baseRotation + scrollDelta;
 
-      // Update label HTML overlay positions via camera projection.
+      // Subtle node pulse — scale oscillates by ~6% on a per-node phase
+      for (let i = 0; i < nodes.length; i++) {
+        const pulse = 1 + Math.sin(t * 1.5 + i * 1.2) * 0.06;
+        nodes[i].scale.setScalar(pulse);
+      }
+
+      composer.render();
+
+      // Update HTML label positions via projection
       const w = canvas.clientWidth;
       const h = canvas.clientHeight;
       for (let i = 0; i < nodes.length; i++) {
@@ -149,16 +191,23 @@ export function FiveSurfacesDiagram() {
         worldPos.project(handle.camera);
         const x = (worldPos.x * 0.5 + 0.5) * w;
         const y = (-worldPos.y * 0.5 + 0.5) * h;
-        // z>1 means behind camera; we still hide via opacity for back-facing nodes
         const behind = worldPos.z > 1;
-        const depth = worldPos.z; // -1..1, more negative = closer
+        const depth = worldPos.z;
         const opacity = behind ? 0 : Math.max(0.35, 1 - (depth + 1) * 0.4);
-        labelEl.style.transform = `translate(${x}px, ${y}px) translate(-50%, calc(-100% - 18px))`;
+        labelEl.style.transform = `translate(${x}px, ${y}px) translate(-50%, calc(-100% - 22px))`;
         labelEl.style.opacity = String(opacity);
       }
-    });
 
-    return () => handle.dispose();
+      rafId = requestAnimationFrame(loop);
+    };
+    rafId = requestAnimationFrame(loop);
+
+    return () => {
+      cancelAnimationFrame(rafId);
+      window.removeEventListener("resize", setComposerSize);
+      composer.dispose();
+      handle.dispose();
+    };
   }, []);
 
   return (

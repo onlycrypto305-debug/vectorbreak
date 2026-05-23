@@ -2,6 +2,7 @@
 
 import { motion } from "framer-motion";
 import { HeroBackground } from "@/components/HeroBackground";
+import { MagneticPill } from "@/components/MagneticPill";
 
 const fadeUp = {
   hidden: { opacity: 0, y: 18 },
@@ -110,7 +111,7 @@ export function Hero() {
           variants={fadeUp}
           transition={{ duration: 0.7, ease: [0.32, 0.72, 0, 1], delay: 1.0 }}
         >
-          <a
+          <MagneticPill
             href="#contact"
             className="inline-flex items-center gap-2 px-6 py-3 text-sm font-medium text-white transition-colors hover:bg-[var(--color-gold-hover)]"
             style={{
@@ -119,7 +120,7 @@ export function Hero() {
             }}
           >
             Scope an engagement
-          </a>
+          </MagneticPill>
           <a
             href="#methodology"
             className="inline-flex items-center gap-2 text-sm font-medium transition-all"

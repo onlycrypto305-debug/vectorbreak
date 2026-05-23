@@ -1,4 +1,6 @@
 import { Reveal } from "@/components/Reveal";
+import { WordCascade } from "@/components/WordCascade";
+import { MagneticPill } from "@/components/MagneticPill";
 
 const SPECS = [
   { value: "Free", label: "Practitioner tier" },
@@ -20,22 +22,28 @@ export function Community() {
       }}
     >
       <div className="max-w-6xl mx-auto px-6 lg:px-8">
-        <Reveal className="text-center">
-          <p className="h-eyebrow">COMMUNITY · DISCORD</p>
+        <div className="text-center">
+          <Reveal>
+            <p className="h-eyebrow">COMMUNITY · DISCORD</p>
+          </Reveal>
           <h2 className="h-mega mt-8" style={{ color: "var(--color-ink)" }}>
-            Practitioners only.
-            <br />
-            <span style={{ color: "var(--color-mute2)" }}>
-              Application required.
-            </span>
+            <WordCascade as="div" text="Practitioners only." />
+            <WordCascade
+              as="div"
+              text="Application required."
+              delay={0.25}
+              style={{ color: "var(--color-mute2)" }}
+            />
           </h2>
-          <p className="lead mt-10 mx-auto max-w-2xl">
-            A vetted private community of AI red-teamers, AppSec engineers,
-            ML-platform people, and compliance leads. Weekly threat-class
-            write-ups, live PoC reviews, monthly threat-intel briefing. No
-            vendors, no recruiters, no AI-twitter noise.
-          </p>
-        </Reveal>
+          <Reveal delay={0.6}>
+            <p className="lead mt-10 mx-auto max-w-2xl">
+              A vetted private community of AI red-teamers, AppSec engineers,
+              ML-platform people, and compliance leads. Weekly threat-class
+              write-ups, live PoC reviews, monthly threat-intel briefing. No
+              vendors, no recruiters, no AI-twitter noise.
+            </p>
+          </Reveal>
+        </div>
 
         <div
           className="mt-20 max-w-3xl mx-auto grid grid-cols-3 gap-px border"
@@ -77,7 +85,7 @@ export function Community() {
         </div>
 
         <div className="mt-14 flex flex-wrap justify-center gap-4">
-          <a
+          <MagneticPill
             href={DISCORD_MAILTO}
             className="inline-flex items-center gap-2 px-6 py-3 text-sm font-medium text-white transition-colors hover:bg-[var(--color-gold-hover)]"
             style={{
@@ -86,7 +94,7 @@ export function Community() {
             }}
           >
             Request Discord invite
-          </a>
+          </MagneticPill>
           <a
             href="mailto:Lance@vectorbreak.com?subject=Community%20enquiry"
             className="inline-flex items-center gap-1 hover:gap-2 transition-all text-sm font-medium"

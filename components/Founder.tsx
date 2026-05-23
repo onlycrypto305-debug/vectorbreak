@@ -1,4 +1,5 @@
 import { Reveal } from "@/components/Reveal";
+import { WordCascade } from "@/components/WordCascade";
 
 export function Founder() {
   return (
@@ -12,17 +13,21 @@ export function Founder() {
       }}
     >
       <div className="max-w-5xl mx-auto px-6 lg:px-8">
-        <Reveal className="text-center">
-          <p className="h-eyebrow" style={{ color: "var(--color-mute2)" }}>
-            THE EXPERT YOU&rsquo;RE HIRING
-          </p>
+        <div className="text-center">
+          <Reveal>
+            <p className="h-eyebrow" style={{ color: "var(--color-mute2)" }}>
+              THE EXPERT YOU&rsquo;RE HIRING
+            </p>
+          </Reveal>
           <h2 className="h-mega mt-8" style={{ color: "var(--color-textl)" }}>
-            Vector Layer.
+            <WordCascade as="div" text="Vector Layer." />
           </h2>
-          <p className="h-sub mt-6" style={{ color: "var(--color-mute2)" }}>
-            Founder · Vectorbreak Security · Maintainer · Five Surfaces
-          </p>
-        </Reveal>
+          <Reveal delay={0.5}>
+            <p className="h-sub mt-6" style={{ color: "var(--color-mute2)" }}>
+              Founder · Vectorbreak Security · Maintainer · Five Surfaces
+            </p>
+          </Reveal>
+        </div>
 
         <div className="mt-20 max-w-3xl mx-auto space-y-7">
           <p

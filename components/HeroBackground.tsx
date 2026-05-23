@@ -2,17 +2,26 @@
 
 import { useEffect, useRef } from "react";
 import {
-  Mesh,
-  PlaneGeometry,
+  AdditiveBlending,
+  BufferAttribute,
+  BufferGeometry,
+  Color,
+  Points,
   ShaderMaterial,
   Uniform,
   Vector2,
 } from "three";
 import { createScene } from "@/lib/three/createScene";
 
+const PARTICLE_COUNT = 2500;
+const CLOUD_DEPTH = 12;
+const CLOUD_RADIUS = 8;
+
 /**
- * Full-bleed shader background for the hero. Slow-moving noise field in
- * dark + gold (Vectorbreak palette). Placeholder for a richer scene in Phase 2.
+ * Hero background: a drifting cloud of small glowing points in 3D space.
+ * Camera has subtle parallax based on cursor. Two color tiers (most particles
+ * are gold-ink mid-tone, ~12% are bright gold accents). Additive blending
+ * gives a soft self-glow without needing a post-process pass.
  */
 export function HeroBackground() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -20,34 +29,142 @@ export function HeroBackground() {
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
-      // Render a single static frame, no RAF.
-      const handle = createScene({ canvas });
-      const mat = makeMaterial();
-      const mesh = new Mesh(new PlaneGeometry(2, 2), mat);
-      handle.scene.add(mesh);
-      mat.uniforms.uResolution.value.set(
-        canvas.clientWidth,
-        canvas.clientHeight,
-      );
-      handle.renderer.render(handle.scene, handle.camera);
-      return () => handle.dispose();
+
+    const reducedMotion = window.matchMedia(
+      "(prefers-reduced-motion: reduce)",
+    ).matches;
+
+    const handle = createScene({
+      canvas,
+      fov: 60,
+      rendererParams: { alpha: false },
+    });
+    handle.renderer.setClearColor(new Color("#000000"), 1);
+    handle.camera.position.set(0, 0, 5);
+
+    // Generate particle positions across a flat-ish 3D volume.
+    const positions = new Float32Array(PARTICLE_COUNT * 3);
+    const seeds = new Float32Array(PARTICLE_COUNT);
+    const intensities = new Float32Array(PARTICLE_COUNT);
+    for (let i = 0; i < PARTICLE_COUNT; i++) {
+      // Radial distribution — denser in the middle, sparser at edges.
+      const r = Math.sqrt(Math.random()) * CLOUD_RADIUS;
+      const theta = Math.random() * Math.PI * 2;
+      positions[i * 3] = Math.cos(theta) * r;
+      positions[i * 3 + 1] = Math.sin(theta) * r * 0.6; // slightly squashed vertically
+      positions[i * 3 + 2] = (Math.random() - 0.5) * CLOUD_DEPTH;
+      seeds[i] = Math.random() * 100;
+      // ~12% of particles are "bright" (gold), rest are dim (ink->gold mid)
+      intensities[i] = Math.random() < 0.12 ? 1.0 : 0.3 + Math.random() * 0.25;
     }
 
-    const handle = createScene({ canvas });
-    const mat = makeMaterial();
-    const mesh = new Mesh(new PlaneGeometry(2, 2), mat);
-    handle.scene.add(mesh);
+    const geo = new BufferGeometry();
+    geo.setAttribute("position", new BufferAttribute(positions, 3));
+    geo.setAttribute("aSeed", new BufferAttribute(seeds, 1));
+    geo.setAttribute("aIntensity", new BufferAttribute(intensities, 1));
 
+    const mat = new ShaderMaterial({
+      uniforms: {
+        uTime: new Uniform(0),
+        uResolution: new Uniform(new Vector2(1, 1)),
+        uCursor: new Uniform(new Vector2(0, 0)),
+        uPixelRatio: new Uniform(window.devicePixelRatio || 1),
+      },
+      transparent: true,
+      depthWrite: false,
+      blending: AdditiveBlending,
+      vertexShader: /* glsl */ `
+        uniform float uTime;
+        uniform float uPixelRatio;
+        attribute float aSeed;
+        attribute float aIntensity;
+        varying float vIntensity;
+        varying float vTwinkle;
+
+        void main() {
+          vIntensity = aIntensity;
+
+          // Slow per-particle drift via seeded sin/cos
+          vec3 pos = position;
+          pos.x += sin(uTime * 0.15 + aSeed) * 0.15;
+          pos.y += cos(uTime * 0.12 + aSeed * 1.3) * 0.12;
+          pos.z += sin(uTime * 0.10 + aSeed * 0.7) * 0.18;
+
+          vec4 mvPosition = modelViewMatrix * vec4(pos, 1.0);
+          gl_Position = projectionMatrix * mvPosition;
+
+          // Twinkle — slow brightness oscillation, distinct per particle
+          vTwinkle = 0.65 + 0.35 * sin(uTime * 1.3 + aSeed * 5.0);
+
+          // Point size: bright particles slightly bigger, scaled by distance
+          float baseSize = aIntensity > 0.7 ? 8.0 : 3.5;
+          gl_PointSize = baseSize * uPixelRatio * (1.0 / -mvPosition.z) * 3.0;
+        }
+      `,
+      fragmentShader: /* glsl */ `
+        precision highp float;
+        varying float vIntensity;
+        varying float vTwinkle;
+
+        void main() {
+          // Soft circular point with falloff
+          vec2 c = gl_PointCoord - vec2(0.5);
+          float d = length(c);
+          if (d > 0.5) discard;
+          float alpha = smoothstep(0.5, 0.0, d);
+          alpha = pow(alpha, 1.5);
+
+          // Bright particles are gold, dim particles are warm-grey
+          vec3 gold = vec3(0.85, 0.62, 0.27);
+          vec3 dim  = vec3(0.35, 0.32, 0.28);
+          vec3 col = mix(dim, gold, smoothstep(0.5, 1.0, vIntensity));
+
+          gl_FragColor = vec4(col * vTwinkle, alpha * vIntensity);
+        }
+      `,
+    });
+
+    const points = new Points(geo, mat);
+    handle.scene.add(points);
+
+    // Cursor parallax — camera offsets slightly toward cursor for depth feel
+    const targetCursor = { x: 0, y: 0 };
+    const onPointerMove = (e: PointerEvent) => {
+      const rect = canvas.getBoundingClientRect();
+      const x = (e.clientX - rect.left) / rect.width - 0.5;
+      const y = (e.clientY - rect.top) / rect.height - 0.5;
+      targetCursor.x = x;
+      targetCursor.y = y;
+    };
+    if (!reducedMotion) {
+      window.addEventListener("pointermove", onPointerMove);
+    }
+
+    const smoothCursor = { x: 0, y: 0 };
     handle.start((time) => {
       mat.uniforms.uTime.value = time;
       mat.uniforms.uResolution.value.set(
         canvas.clientWidth,
         canvas.clientHeight,
       );
+
+      // Lerp camera toward cursor for smooth parallax
+      smoothCursor.x += (targetCursor.x - smoothCursor.x) * 0.05;
+      smoothCursor.y += (targetCursor.y - smoothCursor.y) * 0.05;
+      handle.camera.position.x = smoothCursor.x * 0.6;
+      handle.camera.position.y = -smoothCursor.y * 0.4;
+      handle.camera.lookAt(0, 0, 0);
+
+      // Slow z-drift so the whole field gently breathes forward
+      if (!reducedMotion) {
+        points.rotation.z = Math.sin(time * 0.02) * 0.03;
+      }
     });
 
-    return () => handle.dispose();
+    return () => {
+      window.removeEventListener("pointermove", onPointerMove);
+      handle.dispose();
+    };
   }, []);
 
   return (
@@ -57,80 +174,4 @@ export function HeroBackground() {
       aria-hidden="true"
     />
   );
-}
-
-function makeMaterial() {
-  return new ShaderMaterial({
-    uniforms: {
-      uTime: new Uniform(0),
-      uResolution: new Uniform(new Vector2(1, 1)),
-    },
-    vertexShader: /* glsl */ `
-      varying vec2 vUv;
-      void main() {
-        vUv = uv;
-        gl_Position = vec4(position, 1.0);
-      }
-    `,
-    fragmentShader: /* glsl */ `
-      precision highp float;
-      uniform float uTime;
-      uniform vec2  uResolution;
-      varying vec2 vUv;
-
-      // Hash + value noise + fbm (cheap, smooth)
-      float hash(vec2 p) {
-        return fract(sin(dot(p, vec2(127.1, 311.7))) * 43758.5453);
-      }
-      float noise(vec2 p) {
-        vec2 i = floor(p);
-        vec2 f = fract(p);
-        float a = hash(i);
-        float b = hash(i + vec2(1.0, 0.0));
-        float c = hash(i + vec2(0.0, 1.0));
-        float d = hash(i + vec2(1.0, 1.0));
-        vec2 u = f * f * (3.0 - 2.0 * f);
-        return mix(a, b, u.x) + (c - a) * u.y * (1.0 - u.x) + (d - b) * u.x * u.y;
-      }
-      float fbm(vec2 p) {
-        float v = 0.0;
-        float a = 0.5;
-        for (int i = 0; i < 5; i++) {
-          v += a * noise(p);
-          p *= 2.02;
-          a *= 0.5;
-        }
-        return v;
-      }
-
-      void main() {
-        vec2 uv = vUv;
-        float aspect = uResolution.x / max(uResolution.y, 1.0);
-        vec2 p = vec2((uv.x - 0.5) * aspect, uv.y - 0.5);
-
-        // Slow drifting noise
-        float t = uTime * 0.04;
-        float n = fbm(p * 2.0 + vec2(t, -t * 0.5));
-        n = pow(n, 1.4);
-
-        // Radial vignette toward edges
-        float r = length(p);
-        float vignette = smoothstep(1.2, 0.2, r);
-
-        // Palette: deep black -> ink -> gold accents at higher noise
-        vec3 black = vec3(0.0);
-        vec3 ink   = vec3(0.11, 0.11, 0.12);
-        vec3 gold  = vec3(0.72, 0.52, 0.18);
-
-        vec3 col = mix(black, ink, smoothstep(0.2, 0.65, n));
-        col = mix(col, gold * 0.45, smoothstep(0.7, 0.95, n) * vignette);
-
-        // Subtle grain
-        float grain = (hash(uv * uResolution + uTime) - 0.5) * 0.025;
-        col += grain;
-
-        gl_FragColor = vec4(col, 1.0);
-      }
-    `,
-  });
 }

@@ -1,4 +1,9 @@
+"use client";
+
+import { motion } from "framer-motion";
 import { Reveal } from "@/components/Reveal";
+import { WordCascade } from "@/components/WordCascade";
+import { MagneticPill } from "@/components/MagneticPill";
 
 interface Sku {
   name: string;
@@ -70,21 +75,27 @@ export function Pricing() {
       }}
     >
       <div className="max-w-6xl mx-auto px-6 lg:px-8">
-        <Reveal className="text-center">
-          <p className="h-eyebrow">PRICING · FIXED FEE</p>
+        <div className="text-center">
+          <Reveal>
+            <p className="h-eyebrow">PRICING · FIXED FEE</p>
+          </Reveal>
           <h2 className="h-mega mt-8" style={{ color: "var(--color-ink)" }}>
-            A ladder, not a tier.
-            <br />
-            <span style={{ color: "var(--color-mute2)" }}>
-              Pick the shape that fits the decision.
-            </span>
+            <WordCascade as="div" text="A ladder, not a tier." />
+            <WordCascade
+              as="div"
+              text="Pick the shape that fits the decision."
+              delay={0.3}
+              style={{ color: "var(--color-mute2)" }}
+            />
           </h2>
-          <p className="lead mt-10 mx-auto max-w-2xl">
-            Fixed-fee at every level. No hourly creep. No &ldquo;as-needed&rdquo;
-            travel costs. PoCs and infrastructure on me. 60% on signature, 30%
-            at delivery, 10% on retest sign-off.
-          </p>
-        </Reveal>
+          <Reveal delay={0.8}>
+            <p className="lead mt-10 mx-auto max-w-2xl">
+              Fixed-fee at every level. No hourly creep. No &ldquo;as-needed&rdquo;
+              travel costs. PoCs and infrastructure on me. 60% on signature, 30%
+              at delivery, 10% on retest sign-off.
+            </p>
+          </Reveal>
+        </div>
 
         <div className="mt-20 max-w-5xl mx-auto overflow-x-auto">
           <table className="w-full border-collapse">
@@ -98,16 +109,24 @@ export function Pricing() {
                 </PriceTh>
               </tr>
             </thead>
-            <tbody>
+            <motion.tbody
+              initial="hidden"
+              whileInView="show"
+              viewport={{ once: true, amount: 0.15 }}
+              variants={{
+                hidden: {},
+                show: { transition: { staggerChildren: 0.06 } },
+              }}
+            >
               {SKUS.map((s) => (
                 <SkuRow key={s.name} sku={s} />
               ))}
-            </tbody>
+            </motion.tbody>
           </table>
         </div>
 
         <div className="mt-16 text-center">
-          <a
+          <MagneticPill
             href="#contact"
             className="inline-flex items-center gap-2 px-6 py-3 text-sm font-medium text-white transition-colors hover:bg-[var(--color-mute)]"
             style={{
@@ -117,7 +136,7 @@ export function Pricing() {
             }}
           >
             Get a fixed-fee proposal
-          </a>
+          </MagneticPill>
         </div>
       </div>
     </section>
@@ -152,9 +171,17 @@ function PriceTh({
 
 function SkuRow({ sku }: { sku: Sku }) {
   return (
-    <tr
+    <motion.tr
       className="transition-colors hover:bg-[var(--color-paper)]"
       style={{ borderBottom: "1px solid var(--color-rule)" }}
+      variants={{
+        hidden: { opacity: 0, y: 12 },
+        show: {
+          opacity: 1,
+          y: 0,
+          transition: { duration: 0.7, ease: [0.32, 0.72, 0, 1] },
+        },
+      }}
     >
       <td className="py-6 px-4 align-top">
         <span
@@ -196,6 +223,6 @@ function SkuRow({ sku }: { sku: Sku }) {
           {sku.price}
         </span>
       </td>
-    </tr>
+    </motion.tr>
   );
 }

@@ -3,6 +3,7 @@
 import { animate, useInView } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
 import { Reveal } from "@/components/Reveal";
+import { WordCascade } from "@/components/WordCascade";
 
 interface Stat {
   value: number;
@@ -30,16 +31,27 @@ export function SpecStats() {
           >
             THE METHODOLOGY · BY THE NUMBERS
           </p>
-          <h2
-            className="h-section mt-8 max-w-4xl mx-auto"
-            style={{ color: "var(--color-textl)" }}
-          >
-            Five surfaces. Sixty-nine risk classes.
-            <br />
-            Eight published case studies.{" "}
-            <span style={{ color: "var(--color-mute2)" }}>Solo-authored.</span>
-          </h2>
         </Reveal>
+        <h2
+          className="h-section mt-8 max-w-4xl mx-auto"
+          style={{ color: "var(--color-textl)" }}
+        >
+          <WordCascade
+            as="div"
+            text="Five surfaces. Sixty-nine risk classes."
+          />
+          <WordCascade
+            as="div"
+            text="Eight published case studies."
+            delay={0.35}
+          />
+          <WordCascade
+            as="span"
+            text=" Solo-authored."
+            delay={0.6}
+            style={{ color: "var(--color-mute2)" }}
+          />
+        </h2>
 
         <div className="mt-24 grid grid-cols-2 md:grid-cols-4 gap-y-16 gap-x-8">
           {STATS.map((stat) => (

@@ -1,5 +1,6 @@
 import { FiveSurfacesDiagram } from "@/components/FiveSurfacesDiagram";
 import { Reveal } from "@/components/Reveal";
+import { WordCascade } from "@/components/WordCascade";
 
 const SURFACES = [
   {
@@ -47,16 +48,17 @@ export function Methodology() {
       <div className="max-w-6xl mx-auto px-6 lg:px-8">
         <Reveal>
           <p className="h-eyebrow">METHODOLOGY · FIVE SURFACES v0.1</p>
-          <h2
-            className="h-mega mt-8"
-            style={{ color: "var(--color-ink)" }}
-          >
-            Five surfaces.
-            <br />
-            <span style={{ color: "var(--color-mute2)" }}>
-              Five places production incidents&nbsp;live.
-            </span>
-          </h2>
+        </Reveal>
+        <h2 className="h-mega mt-8" style={{ color: "var(--color-ink)" }}>
+          <WordCascade as="div" text="Five surfaces." />
+          <WordCascade
+            as="div"
+            text="Five places production incidents live."
+            delay={0.25}
+            style={{ color: "var(--color-mute2)" }}
+          />
+        </h2>
+        <Reveal delay={0.7}>
           <p className="lead mt-10 mx-auto max-w-2xl">
             LLM application security used to be one surface: a chatbot&rsquo;s
             input box. In 2026 it&rsquo;s five — and four of them are where the
