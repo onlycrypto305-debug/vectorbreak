@@ -25,7 +25,7 @@ const SERVICES: Service[] = [
     tag: "AUDIT",
     title: "Find your problems before someone else does.",
     desc: "Fixed-scope red-team engagements against your live AI agent or RAG pipeline. Five Surfaces methodology in full. Insurance-grade deliverable, retest included, sign-off letter for compliance, carrier and acquirer use.",
-    cta: { href: "#pricing", label: "SKU ladder · $4.5k–$285k →" },
+    cta: { href: "/services/audit/", label: "SKU ladder · $4.5k–$285k →" },
   },
   {
     letter: "T",
@@ -33,7 +33,7 @@ const SERVICES: Service[] = [
     title: "Stand up your team's own red-teaming muscle.",
     desc: "Two-day on-site or virtual Five Surfaces workshop for AppSec, ML, and platform teams. Hands-on labs against intentionally vulnerable agents. Certification track. Ninety days of async Q&A and follow-up review.",
     cta: {
-      href: "mailto:Lance@vectorbreak.com?subject=Training%20enquiry",
+      href: "/services/training/",
       label: "Workshop · from $60k →",
     },
   },
@@ -43,7 +43,7 @@ const SERVICES: Service[] = [
     title: "Don't just find the problem — ship the fix.",
     desc: "Custom defensive tooling: hardened MCP servers, attestation pipelines, prompt-injection monitoring, agent-loop circuit breakers, automated red-team CI. Built to your stack. Maintained on retainer if you want it.",
     cta: {
-      href: "mailto:Lance@vectorbreak.com?subject=Custom%20build%20enquiry",
+      href: "/services/build/",
       label: "Scope a buildout →",
     },
   },
