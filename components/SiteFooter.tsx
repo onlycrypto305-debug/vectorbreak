@@ -1,20 +1,22 @@
 import { FooterConstellation } from "@/components/FooterConstellation";
 
+// Hrefs use absolute paths (or `/#section` for in-homepage anchors) so they
+// work on every page, not just /.
 const FOOTER_COLS = [
   {
     title: "Services",
     links: [
-      { href: "#pricing", label: "Audit" },
-      { href: "#services", label: "Training" },
-      { href: "#services", label: "Custom builds" },
-      { href: "#community", label: "Community" },
+      { href: "/services/audit/", label: "Audit" },
+      { href: "/services/training/", label: "Training" },
+      { href: "/services/build/", label: "Custom builds" },
+      { href: "/#community", label: "Community" },
     ],
   },
   {
     title: "Methodology",
     links: [
-      { href: "#methodology", label: "Five Surfaces" },
-      { href: "#receipts", label: "Case studies" },
+      { href: "/methodology/", label: "Five Surfaces" },
+      { href: "/case-studies/", label: "Case studies" },
       {
         href: "mailto:Lance@vectorbreak.com?subject=Five%20Surfaces%20methodology%20request",
         label: "Request paper",
@@ -25,8 +27,8 @@ const FOOTER_COLS = [
     title: "Connect",
     links: [
       { href: "mailto:Lance@vectorbreak.com", label: "Lance@vectorbreak.com" },
-      { href: "#contact", label: "Scope engagement" },
-      { href: "#founder", label: "About" },
+      { href: "/#contact", label: "Scope engagement" },
+      { href: "/#founder", label: "About" },
     ],
   },
 ];
@@ -65,13 +67,6 @@ export function SiteFooter() {
                 style={{ fontFamily: "var(--font-display)" }}
               >
                 Vectorbreak
-                <span
-                  className="font-normal"
-                  style={{ color: "var(--color-mute2)" }}
-                >
-                  {" "}
-                  Security
-                </span>
               </span>
             </div>
             <p

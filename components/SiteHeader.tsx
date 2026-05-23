@@ -9,12 +9,15 @@ import {
 } from "framer-motion";
 import { useEffect, useState } from "react";
 
+// Hrefs use the `/#section` form (NOT bare `#section`) so they work on inner
+// pages too — on / they scroll in place, on inner pages they navigate home
+// then the browser handles the hash scroll natively.
 const NAV_LINKS = [
-  { href: "#methodology", label: "Methodology" },
-  { href: "#receipts", label: "Receipts" },
-  { href: "#services", label: "Services" },
-  { href: "#pricing", label: "Pricing" },
-  { href: "#community", label: "Community" },
+  { href: "/#methodology", label: "Methodology" },
+  { href: "/#receipts", label: "Receipts" },
+  { href: "/#services", label: "Services" },
+  { href: "/#pricing", label: "Pricing" },
+  { href: "/#community", label: "Community" },
 ];
 
 /**
@@ -65,7 +68,7 @@ export function SiteHeader() {
         }}
       >
         <div className="max-w-6xl mx-auto px-6 lg:px-8 h-12 flex items-center justify-between">
-          <Link href="#top" className="flex items-center gap-2.5">
+          <Link href="/" className="flex items-center gap-2.5">
             <svg width="18" height="18" viewBox="0 0 22 22" aria-hidden="true">
               <path
                 d="M3 3 L11 19 L19 3"
@@ -86,7 +89,6 @@ export function SiteHeader() {
               style={{ fontFamily: "var(--font-display)" }}
             >
               Vectorbreak
-              <span style={{ color: "var(--color-mute2)" }}> Security</span>
             </span>
           </Link>
 
@@ -106,7 +108,7 @@ export function SiteHeader() {
 
           {/* Desktop scope CTA */}
           <a
-            href="#contact"
+            href="/#contact"
             className="hidden md:inline text-sm font-medium opacity-[0.88] hover:opacity-100 transition-opacity"
             style={{ color: "var(--color-gold)" }}
           >
@@ -199,7 +201,7 @@ export function SiteHeader() {
               </ul>
               <div className="px-8 pt-6 border-t" style={{ borderColor: "var(--color-rule)" }}>
                 <a
-                  href="#contact"
+                  href="/#contact"
                   onClick={() => setOpen(false)}
                   className="inline-flex items-center gap-2 px-5 py-3 text-sm font-medium text-white"
                   style={{

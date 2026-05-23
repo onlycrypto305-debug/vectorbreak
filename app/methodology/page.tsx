@@ -9,7 +9,7 @@ export const metadata: Metadata = {
   title: "Five Surfaces Methodology — AI Agent Security Framework",
   description:
     "The Five Surfaces methodology — 5 attack surfaces, 69 risk classes, 139 validated test cases for AI agents, LLM-backed systems, and MCP deployments.",
-  alternates: { canonical: "https://vectorbreak.com/methodology" },
+  alternates: { canonical: "https://vectorbreak.com/methodology/" },
   openGraph: {
     type: "article",
     url: "https://vectorbreak.com/methodology",

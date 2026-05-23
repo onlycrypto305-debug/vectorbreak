@@ -90,7 +90,7 @@ export function ContactForm() {
     <>
       <Script
         src="https://challenges.cloudflare.com/turnstile/v0/api.js"
-        strategy="lazyOnload"
+        strategy="afterInteractive"
         async
         defer
       />
