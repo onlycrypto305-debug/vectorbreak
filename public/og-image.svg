@@ -1,0 +1,80 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <!--
+    Vectorbreak OG card — 1200×630 (Open Graph standard).
+    Brand tokens from app/globals.css: bg #0D0D0F, paper #FBFBFD, gold #B8852E / #D4A24E / #E8BC65.
+    Render to PNG before deploy:
+      npx resvg-cli public/og-image.svg public/og-image.png -w 1200 -h 630
+    or any SVG→PNG tool (ImageMagick, Inkscape, cloudconvert).
+  -->
+
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#0D0D0F"/>
+      <stop offset="1" stop-color="#000000"/>
+    </linearGradient>
+    <linearGradient id="gold" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0"   stop-color="#B8852E"/>
+      <stop offset="0.5" stop-color="#D4A24E"/>
+      <stop offset="1"   stop-color="#E8BC65"/>
+    </linearGradient>
+    <linearGradient id="surface-fade" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#E8BC65" stop-opacity="1.0"/>
+      <stop offset="1" stop-color="#B8852E" stop-opacity="0.25"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1200" height="630" fill="url(#bg)"/>
+
+  <!-- Five Surfaces visual: 5 stacked accent bars, opacity-fading bottom to top -->
+  <g transform="translate(80,200)">
+    <rect x="0" y="0"   width="6" height="36" fill="#E8BC65" opacity="1.00"/>
+    <rect x="0" y="56"  width="6" height="36" fill="#E8BC65" opacity="0.80"/>
+    <rect x="0" y="112" width="6" height="36" fill="#E8BC65" opacity="0.60"/>
+    <rect x="0" y="168" width="6" height="36" fill="#E8BC65" opacity="0.40"/>
+    <rect x="0" y="224" width="6" height="36" fill="#E8BC65" opacity="0.20"/>
+  </g>
+
+  <!-- Eyebrow (mono, uppercase, tracked) -->
+  <text x="130" y="180"
+        font-family="ui-monospace, 'JetBrains Mono', Menlo, Consolas, monospace"
+        font-size="18" font-weight="500" letter-spacing="3.6"
+        fill="#86868B">AI RED-TEAM · MCP SECURITY · FIVE SURFACES</text>
+
+  <!-- Wordmark (display, light weight, tight tracking) -->
+  <text x="125" y="305"
+        font-family="'Inter Tight', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif"
+        font-size="148" font-weight="300" letter-spacing="-6.7"
+        fill="#FBFBFD">Vectorbreak</text>
+
+  <!-- Tagline (display, regular, tighter line height) -->
+  <text x="130" y="400"
+        font-family="'Inter Tight', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif"
+        font-size="38" font-weight="400" letter-spacing="-0.95"
+        fill="#D2D2D7">Red-team your AI agent</text>
+  <text x="130" y="450"
+        font-family="'Inter Tight', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif"
+        font-size="38" font-weight="400" letter-spacing="-0.95"
+        fill="#D2D2D7">before someone else does.</text>
+
+  <!-- Gold rule -->
+  <rect x="130" y="500" width="120" height="2" fill="url(#gold)"/>
+
+  <!-- Service triplet (mono, small, muted) -->
+  <text x="130" y="540"
+        font-family="ui-monospace, 'JetBrains Mono', Menlo, Consolas, monospace"
+        font-size="16" font-weight="400" letter-spacing="2.4"
+        fill="#86868B">AUDIT  ·  TRAIN  ·  BUILD</text>
+
+  <!-- Domain pin (bottom right) -->
+  <text x="1120" y="585" text-anchor="end"
+        font-family="ui-monospace, 'JetBrains Mono', Menlo, Consolas, monospace"
+        font-size="18" font-weight="500" letter-spacing="1.8"
+        fill="#6E6E73">vectorbreak.com</text>
+
+  <!-- Methodology pin (top right, gold) -->
+  <text x="1120" y="68" text-anchor="end"
+        font-family="ui-monospace, 'JetBrains Mono', Menlo, Consolas, monospace"
+        font-size="14" font-weight="500" letter-spacing="2.1"
+        fill="#D4A24E">5 SURFACES · 69 RISK CLASSES · 8 CASE STUDIES</text>
+</svg>
