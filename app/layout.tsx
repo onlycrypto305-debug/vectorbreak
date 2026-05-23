@@ -23,7 +23,9 @@ import person from "@/lib/schemas/person.json";
 import services from "@/lib/schemas/services.json";
 import mcpScanner from "@/lib/schemas/mcp-scanner.json";
 import website from "@/lib/schemas/website.json";
-import faqpage from "@/lib/schemas/faqpage.json";
+// NOTE: faqpage.json is intentionally NOT imported here — it ships only on the
+// homepage (app/page.tsx) to avoid duplicate FAQPage schema on inner pages
+// like /methodology/ and /services/*/ which have their own FAQ blocks.
 import "./globals.css";
 
 const interTight = Inter_Tight({
@@ -92,7 +94,7 @@ export const viewport: Viewport = {
   initialScale: 1,
 };
 
-const schemas = [organization, person, services, mcpScanner, website, faqpage];
+const schemas = [organization, person, services, mcpScanner, website];
 
 // Per Next.js 16 docs: native <script> in JSX body, escape `<` to neutralise XSS.
 function stringifyLd(obj: unknown): string {
