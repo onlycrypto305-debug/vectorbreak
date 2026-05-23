@@ -1,0 +1,546 @@
+# Vectorbreak
+
+> AI red-team audits, training, and custom defensive engineering for agentic and RAG-enabled systems. The Five Surfaces methodology — 5 attack surfaces, 69 risk classes, 8 published case studies.
+
+Vectorbreak helps teams shipping AI agents, RAG pipelines, and LLM-integrated products find and fix security problems before production incidents. Founded 2026. Solo-authored methodology and case studies.
+
+## Core
+
+- [Homepage](https://vectorbreak.com): Product positioning, services, and methodology overview
+- [Five Surfaces Methodology](https://vectorbreak.com#methodology): The canonical threat model covering model, context, retrieval, tools/MCP, and runtime
+
+## Services
+
+- [Audit](https://vectorbreak.com#pricing): Fixed-fee red-team engagements from $4.5k (Pulse) to $285k (Annual Program)
+- [Training & Education](https://vectorbreak.com#services): Two-day Five Surfaces workshop with hands-on labs
+- [Custom Build](https://vectorbreak.com#services): Defensive tooling, MCP hardening, prompt-injection monitoring, agent-loop circuit breakers
+- [Community](https://vectorbreak.com#community): Vetted Discord for practitioners — weekly threat-class drops, live PoC reviews, monthly threat-intel briefing
+
+## Methodology
+
+- [Five Surfaces Overview](https://vectorbreak.com#methodology): 5 surfaces, 69 risk classes, OWASP-ASI + MITRE-ATLAS mapped
+- [Surface 1: Input/Output](https://vectorbreak.com#methodology): Direct prompts, jailbreaks, output sanitization, multi-modal injection (13 classes)
+- [Surface 2: Retrieval](https://vectorbreak.com#methodology): RAG corpora, indexers, indirect injection, knowledge-base poisoning (11 classes)
+- [Surface 3: Tool-call/MCP](https://vectorbreak.com#methodology): Function calling, MCP servers, tool poisoning, privilege escalation (20 classes)
+- [Surface 4: Model](https://vectorbreak.com#methodology): Weights, adapter chains, system prompts, training-data extraction (11 classes)
+- [Surface 5: Runtime](https://vectorbreak.com#methodology): Sandbox escape, prompt-to-RCE, agent loops, memory persistence (14 classes)
+
+## Case Studies
+
+- [Public Case Studies](https://vectorbreak.com#receipts): 8 documented assessments; 6 PASS (Claude-family), 2 FAIL (cross-family direct-to-model)
+- [Case 01–06](https://vectorbreak.com#receipts): PASS verdicts on Claude Code (Opus 4.7, Sonnet 4.6, Haiku 4.5), Antigravity Opus 4.6, extended testing
+- [Case 07–08](https://vectorbreak.com#receipts): FAIL verdicts on MiniMax-M2 and gpt-oss:120b (direct-to-model, 16–38 findings each)
+
+## Resources
+
+- [Request Five Surfaces Paper](mailto:Lance@vectorbreak.com?subject=Five%20Surfaces%20methodology%20request): Full methodology whitepaper
+- [Request Case Study Access](mailto:Lance@vectorbreak.com?subject=Case%20study%20access%20request): Detailed findings from public audits
+- [MCP Scanner](https://vectorbreak.com): Commercial scanner for prompt injection, tool impersonation, credential leakage in MCP deployments (v1.0.0, Pro tier with auto-remediation)
+
+## About
+
+- [Founder](https://vectorbreak.com#founder): Vector Layer (Lance) — 20 years in offensive security and infrastructure; author of Five Surfaces and mcp-fuzzer (139 unit tests, CI Ubuntu/macOS/Windows)
+- [Contact](https://vectorbreak.com#contact): Lance@vectorbreak.com — direct line to founder, 24-hour response SLA
+
+## Optional
+
+- [LinkedIn Posts](https://linkedin.com): Founding announcement, Five Surfaces explainer, MCP Scanner intro
+- [YouTube Channel](https://youtube.com/@VectorbreakSec): 11-video launch series covering MCP threat landscape, methodology deep-dives, and incident case studies
+
+---
+
+# Page: Homepage
+
+> Source: https://vectorbreak.com
+
+## Red-team your AI agent before someone else does.
+
+Productized red-teaming, defensive engineering, and training for agentic and RAG-enabled AI systems. The artifact your cyber-insurance carrier, EU AI Act conformity assessor, and acquirer's diligence team are now asking for.
+
+### The Methodology by the Numbers
+
+**Five surfaces. Sixty-nine risk classes. Eight published case studies. Solo-authored.**
+
+- 5 Attack surfaces
+- 69 Risk classes
+- 8 Public case studies
+- 139 Unit tests, all green
+
+### Five Surfaces: Five Places Production Incidents Live
+
+LLM application security used to be one surface: a chatbot's input box. In 2026 it's five — and four of them are where the production incidents live. OWASP-ASI + MITRE-ATLAS + OWASP-LLM-Top-10 mapped. MIT-licensed.
+
+#### Surface 1: Input / Output (13 classes)
+
+Direct prompts, structured outputs, jailbreaks, sanitization gaps.
+
+The control plane between the operator and the model. Best-understood surface; still where most teams have unaddressed gaps. Tests include direct prompt injection, conversation-history manipulation, structured-output schema injection, universal jailbreak coverage, multi-turn drift, refusal mining, HTML/markdown rendering attacks, code-block escape, and multi-modal input (image, audio, document parsing).
+
+#### Surface 2: Retrieval (11 classes)
+
+RAG corpora, indexers, indirect injection, knowledge-base poisoning.
+
+Everything you put into the prompt — system instructions, retrieved documents, prior turns, tool outputs. This is the dirtiest surface. If anything in your context window came from anywhere a user can influence, you have a prompt-injection problem and you need to know exactly where the trust boundary sits.
+
+#### Surface 3: Tool-Call / MCP (20 classes — most-exploited)
+
+Function calling, MCP servers, tool poisoning, privilege escalation.
+
+The action plane. This is where 2026's highest-severity findings are landing. MCP servers are unsigned code with privileged access to the model's context window. Tests cover tool poisoning (malicious descriptions, adversarial servers, supply-chain compromise, parameter shadowing), cross-server privilege escalation (read-only feeding write-capable, tool-call chains with credential bleed, sub-agent escalation), and confused-deputy patterns.
+
+#### Surface 4: Model (11 classes)
+
+Weights, adapter chains, system prompts, training-data extraction.
+
+The base model itself — its training data, jailbreaks, refusal behavior, alignment drift over context length, behavior under adversarial prompting. Most teams treat this as "the vendor's problem." It isn't, the moment you ship it to a user.
+
+#### Surface 5: Runtime (14 classes)
+
+Sandbox escape, prompt-to-RCE, agent loops, memory persistence.
+
+Where does the model's execution live? Whose authority is it acting under? Hidden loops in agent orchestration that create opportunities for infinite recursion, token bleed, and lateral movement between sessions.
+
+### Public Case Studies
+
+Methodology validated against named targets.
+
+Eight published assessments. Six PASS verdicts on Claude-family hosts. Two FAIL verdicts on cross-family direct-to-model targets — the empirical property that auditors, insurers, and acquirers need to see before they accept a methodology as evidence-grade.
+
+| # | Target | Surface Scope | Findings | Verdict |
+|---|--------|---------------|----------|---------|
+| 01 | Claude Code · Opus 4.7 | FS3 · full battery | 0 | PASS |
+| 02 | Redacted under NDA | — | — | UNDER NDA |
+| 03 | Claude Code · Opus 4.7 (extended) | FS1 · FS3 | 0 | STRONG PASS |
+| 04 | Antigravity · Opus 4.6 Thinking | FS1 · FS3 · FS5 | 1 disclosed | STRONG PASS |
+| 05 | Claude Code · Sonnet 4.6 | FS3 · full battery | 0 | STRONG PASS |
+| 06 | Claude Code · Haiku 4.5 | FS3 · full battery | 0 | STRONG PASS |
+| 07 | Direct-to-model · MiniMax-M2 | FS1 · FS3 · FS4 | 16 (12 HIGH) | FAIL |
+| 08 | Direct-to-model · gpt-oss:120b | FS1 · FS3 · FS4 · FS5 | 38 (36 HIGH) | FAIL |
+
+### Services: Four Pillars
+
+Audit. Train. Build. Plus an active community.
+
+Four ways to engage Vectorbreak, depending on the decision you're driving and the team you already have in place.
+
+#### Audit
+
+Find your problems before someone else does.
+
+Fixed-scope red-team engagements against your live AI agent or RAG pipeline. Five Surfaces methodology in full. Insurance-grade deliverable, retest included, sign-off letter for compliance, carrier and acquirer use.
+
+#### Train & Educate
+
+Stand up your team's own red-teaming muscle.
+
+Two-day on-site or virtual Five Surfaces workshop for AppSec, ML, and platform teams. Hands-on labs against intentionally vulnerable agents. Certification track. Ninety days of async Q&A and follow-up review.
+
+#### Custom Build
+
+Don't just find the problem — ship the fix.
+
+Custom defensive tooling: hardened MCP servers, attestation pipelines, prompt-injection monitoring, agent-loop circuit breakers, automated red-team CI. Built to your stack. Maintained on retainer if you want it.
+
+#### Community
+
+Practitioners only. On Discord.
+
+Vetted private community of AI red-teamers, AppSec engineers, ML-platform people, and compliance leads. Weekly threat-class drops, live PoC reviews, monthly threat-intel briefing. Free to join; application required.
+
+### Pricing: A Ladder, Not a Tier
+
+Fixed-fee at every level. No hourly creep. No "as-needed" travel costs. PoCs and infrastructure on me. 60% on signature, 30% at delivery, 10% on retest sign-off.
+
+| SKU | Scope | Duration | From |
+|-----|-------|----------|------|
+| Pulse | Public 10-probe Surface-3 battery against your MCP server(s). 1-page red/yellow/green + 30-min readout. | 1 day | $4,500 |
+| MCP Triage | Surface 3 only — full fuzzer run + manual creative testing + findings memo. | 1 week | $12,500 |
+| Pilot | Single in-scope surface, single product. Full deliverable shape, narrower target. | 2 weeks | $28,500 |
+| Standard | One product, ≤3 MCP servers, ≤2 retrieval pipelines, all five surfaces in scope. | 4 weeks | $48,500 |
+| Multi-Agent | Standard + multi-agent orchestration (LangGraph / AutoGen / CrewAI), 4–6 MCP servers, sub-agent trust analysis. | 4 weeks | $78,500 |
+| Compliance-Anchored | Standard + EU AI Act Article 15/16/26 conformity mapping + ISO/IEC 42001 Annex A + insurance-attestation pack. | 5 weeks | $125,000 |
+| Annual Program | Quarterly assessments + monthly threat-intel briefing + 24-hr emergency-triage SLA + annual board readout. | 12 months | $185K – $285K |
+
+### Founder: Vector Layer
+
+Two decades in offensive security and infrastructure. Author of the Five Surfaces methodology and the open-source mcp-fuzzer — 139 unit tests passing, CI across Ubuntu, macOS, and Windows. Thirty-four adversarial MCP tools across seven Surface-3 risk families.
+
+The cross-family case studies — including the public FAILs on MiniMax-M2 and gpt-oss:120b — were authored solo. So is every engagement. Your code is not subcontracted to a junior analyst pool. There is no junior analyst pool.
+
+Disclosure pipeline currently includes a Cursor cross-family disclosure and an Antigravity MCP env-block bug, both pending coordinated release through vendor channels.
+
+**Email:** Lance@vectorbreak.com
+
+### Community: Practitioners Only. Application Required.
+
+A vetted private community of AI red-teamers, AppSec engineers, ML-platform people, and compliance leads. Weekly threat-class write-ups, live PoC reviews, monthly threat-intel briefing. No vendors, no recruiters, no AI-twitter noise.
+
+- **Free** — Practitioner tier
+- **Vetted** — Application required
+- **Weekly** — Threat-class drops
+
+### Scope an Engagement
+
+Two questions. Forty-eight hours. One fixed-fee proposal.
+
+**Question 01:** What are you shipping, and which model(s) and which MCP servers does it touch?
+
+**Question 02:** What decision is the audit driving — insurance renewal, EU AI Act conformity, acquirer diligence, customer questionnaire?
+
+Direct line to founder. No SDR layer. No qualifier form. Response in 24 hours.
+
+**Contact:** Lance@vectorbreak.com
+
+---
+
+# Page: Five Surfaces Methodology
+
+> Source: https://vectorbreak.com#methodology
+
+The Five Surfaces framework organizes LLM-application security into five distinct attack surfaces, each with its own threat model, test cases, and remediation patterns.
+
+## Surface 1: Input / Output
+
+The control plane between the operator and the model.
+
+**13 risk classes** covering direct prompts, structured outputs, jailbreaks, and sanitization gaps.
+
+### Direct Prompt Injection (FS1-DPI)
+
+- Override of system prompt via user input: Classic "ignore previous instructions" family, authority impersonation, translation pivot, role-play sandwich, multi-modal variations.
+- Conversation-history manipulation: Fake assistant messages if history is user-controlled.
+- Structured-output schema injection: Can the user influence JSON schema or parsers?
+
+### Jailbreak (FS1-JB)
+
+- Universal jailbreak coverage: Run a battery of published jailbreaks; catalogue what the system blocks vs. allows.
+- Multi-turn drift: Guardrails often decay across conversation turns.
+- Refusal mining: What does the model refuse? Refusal text often leaks system-prompt language or training details.
+
+### Output Sanitization (FS1-OS)
+
+- HTML/markdown rendering attacks: XSS via script tags, image referer exfil, markdown injection.
+- Code-block escape: In IDEs and dev tools, can output break out of code-suggestion context?
+- Structured-output escape: Can the model produce malformed JSON that confuses downstream parsers?
+
+### Multi-Modal Input (FS1-MM)
+
+- Image prompt injection: Text in images (visible or steganographic), metadata injection.
+- Audio/voice transcription injection: Adversarial audio transcribed as text.
+- Document parsing injection: Hidden text in PDFs, comments, form fields.
+
+### History Serialization (FS1-HS)
+
+- Cross-session contamination: Can user A see remnants of user B's session? Do summarizations leak secrets?
+
+## Surface 2: Retrieval
+
+Everything you put into the prompt — system instructions, retrieved documents, prior turns, tool outputs.
+
+**11 risk classes** covering RAG corpora, indexers, indirect injection, and knowledge-base poisoning.
+
+This is the dirtiest surface. If anything in your context window came from anywhere a user can influence, you have a prompt-injection problem and you need to know exactly where the trust boundary sits. Test retrieval source controls, document parsing for injection payloads, embedding-space poisoning, index corruption, and retrieval-result sanitization.
+
+## Surface 3: Tool-Call / MCP
+
+The action plane. This is where 2026's highest-severity findings are landing.
+
+**20 risk classes** covering function calling, MCP servers, tool poisoning, and privilege escalation. Most-exploited surface.
+
+### Tool Poisoning (FS3-TP)
+
+- Malicious tool description injection: MCP servers often populate descriptions dynamically. Can an attacker inject instructions into descriptions that the model treats as authoritative?
+- Adversarial MCP server in multi-server config: Can a low-trust server hijack a high-trust server's invocation pattern?
+- Skill/plugin marketplace supply chain: Are skills cryptographically signed? Is there manifest review? Disclosure pathway? OpenClaw incident (January 2026) — 824 malicious skills shipped before detection.
+- Function schema parameter shadowing: Can the model confuse overlapping parameter names between tools?
+
+### Cross-Server / Cross-Tool Privilege Escalation (FS3-XPE)
+
+- Read-only tool feeds write-capable tool: Can output from a read-only tool (web_fetch, read_file) flow into write-capable tool parameters without re-confirmation?
+- Tool-call chain with credential bleed: If a tool result includes a credential in an error path, does it leak into the next tool's parameters?
+- Sub-agent escalation: In multi-agent systems, can the parent be tricked into spawning a child with permissions exceeding what was authorized?
+
+### Confused-Deputy Patterns (FS3-CD)
+
+- Identity confusion between MCP server and model: Whose authority is the call executing under?
+- OAuth / credential leakage across agent-call chains: Tokens leaked when one tool's result feeds another.
+
+## Surface 4: Model
+
+The base model itself — its training data, jailbreaks, refusal behavior, alignment drift over context length, behavior under adversarial prompting.
+
+**11 risk classes** covering weights, adapter chains, system prompts, and training-data extraction.
+
+Most teams treat this as "the vendor's problem." It isn't, the moment you ship it to a user. Tests cover model watermarking, extraction attacks, fine-tuning backdoors, and in-context behavior under extreme scenarios.
+
+## Surface 5: Runtime
+
+Where does the model's execution live? Whose authority is it acting under?
+
+**14 risk classes** covering sandbox escape, prompt-to-RCE, agent loops, and memory persistence.
+
+Hidden loops in agent orchestration create opportunities for infinite recursion, token bleed, and lateral movement between sessions. Test memory isolation, loop detection, output sinks, and recovery mechanisms.
+
+---
+
+# Page: Public Case Studies
+
+> Source: https://vectorbreak.com#receipts
+
+## Methodology Validated Against Named Targets
+
+Eight published assessments. Six PASS verdicts on Claude-family hosts. Two FAIL verdicts on cross-family direct-to-model targets — the empirical property that auditors, insurers, and acquirers need to see before they accept a methodology as evidence-grade.
+
+| # | Target | Surface Scope | Findings | Verdict |
+|---|--------|---------------|----------|---------|
+| 01 | Claude Code · Opus 4.7 | FS3 · full battery | 0 | PASS |
+| 02 | Redacted under NDA | — | — | UNDER NDA |
+| 03 | Claude Code · Opus 4.7 (extended) | FS1 · FS3 | 0 | STRONG PASS |
+| 04 | Antigravity · Opus 4.6 Thinking | FS1 · FS3 · FS5 | 1 disclosed | STRONG PASS |
+| 05 | Claude Code · Sonnet 4.6 | FS3 · full battery | 0 | STRONG PASS |
+| 06 | Claude Code · Haiku 4.5 | FS3 · full battery | 0 | STRONG PASS |
+| 07 | Direct-to-model · MiniMax-M2 | FS1 · FS3 · FS4 | 16 (12 HIGH) | FAIL |
+| 08 | Direct-to-model · gpt-oss:120b | FS1 · FS3 · FS4 · FS5 | 38 (36 HIGH) | FAIL |
+
+### Case Study Insights
+
+**Claude-family (Cases 01, 03, 05, 06):** Consistent PASS verdicts across Opus and Sonnet lineages. Full FS3 battery (tool-call and MCP attack surface) shows no exploitable issues under the Five Surfaces methodology.
+
+**Extended Testing (Case 03):** Combined FS1 (input/output) and FS3 (tool-call) surfaces; zero findings. Indicates robust handling of prompt-injection attempts and tool-orchestration edge cases.
+
+**Antigravity Opus 4.6 with Thinking Mode (Case 04):** STRONG PASS across FS1, FS3, FS5. One disclosed finding in an ancillary domain (not a security bypass). Reasoning extensions do not introduce new attack vectors within scope.
+
+**Direct-to-model: MiniMax-M2 (Case 07):** 16 findings, 12 rated HIGH. Covers FS1 (input/output injection), FS3 (tool schema attacks, privilege escalation), and FS4 (model-level leaks). Demonstrates empirical failure when Five Surfaces methodology is applied to models without protective frameworks (e.g., Claude SDK guardrails).
+
+**Direct-to-model: gpt-oss:120b (Case 08):** 38 findings, 36 rated HIGH. Broadest surface scope (FS1 · FS3 · FS4 · FS5). Indicates systematic vulnerabilities in open-source model deployments across all five surfaces when no defensive engineering is applied.
+
+### Why These Verdicts Matter
+
+The **PASS verdicts** establish that the Five Surfaces methodology can validate secure deployments — not just find problems. Six independent case studies with zero to one findings provide the evidence-grade proof that insurers, acquirers, and compliance teams require.
+
+The **FAIL verdicts** demonstrate that the methodology detects real, high-severity issues in undefended systems. The cross-family failures (MiniMax, gpt-oss) show the methodology is not a false-negative machine; it reveals genuine risk in systems that lack Vectorbreak-level defensive engineering.
+
+Together, the 8 cases form a **replicable audit artifact** — the thing your cyber-insurance carrier, your EU AI Act conformity assessor, and your M&A diligence team are now asking for.
+
+---
+
+# Page: Services
+
+> Source: https://vectorbreak.com#services
+
+## Four Pillars: Audit. Train. Build. Community.
+
+### Audit: Find Your Problems Before Someone Else Does
+
+Fixed-scope red-team engagements against your live AI agent or RAG pipeline. Five Surfaces methodology in full. Insurance-grade deliverable, retest included, sign-off letter for compliance, carrier and acquirer use.
+
+**Who:** Teams shipping AI agents, RAG systems, or LLM-integrated SaaS that need adversarial validation before a researcher posts a Friday-afternoon exploit.
+
+**Deliverable:** Retest-included report, remediation roadmap, compliance sign-off letter, and a 30-minute readout with your security team.
+
+**Timeline:** 1 day (Pulse) to 12 months (Annual Program).
+
+### Training & Education: Stand Up Your Team's Own Red-Teaming Muscle
+
+Two-day on-site or virtual Five Surfaces workshop for AppSec, ML, and platform teams. Hands-on labs against intentionally vulnerable agents. Certification track. Ninety days of async Q&A and follow-up review.
+
+**Who:** Security teams, platform teams, and ML engineers who want to own their own AI red-teaming capability rather than hiring annually.
+
+**Format:** Two full days of instruction + lab exercises + threat-modeling workshops. Ninety-day follow-up Q&A window for each participant.
+
+**Outcome:** Team-wide Five Surfaces literacy, lab environment reproducible in your own CI, and a certification that your team can audit your own agents.
+
+**Price:** From $60k.
+
+### Custom Build: Don't Just Find the Problem — Ship the Fix
+
+Custom defensive tooling: hardened MCP servers, attestation pipelines, prompt-injection monitoring, agent-loop circuit breakers, automated red-team CI. Built to your stack. Maintained on retainer if you want it.
+
+**Who:** Teams that have completed an audit and want to operationalize the findings — or teams that want to ship with defensive engineering from day one.
+
+**Scope examples:**
+- Hardened MCP server scaffolding (role-based tool access, cryptographic tool-call verification, multi-hop approval workflows)
+- Prompt-injection detection middleware (token-level taint tracking, statistical anomaly detection in model context)
+- Agent-loop circuit breakers (recursion depth limits, token-burn thresholds, runaway-loop termination)
+- Automated red-team CI (Five Surfaces fuzzer runs on every PR, findings routed to your security dashboard)
+
+**Retainer:** Optional long-term maintenance and threat-intel updates as the MCP/agentic landscape evolves.
+
+### Community: Practitioners Only. On Discord.
+
+Vetted private community of AI red-teamers, AppSec engineers, ML-platform people, and compliance leads. Weekly threat-class drops, live PoC reviews, monthly threat-intel briefing. No vendors, no recruiters, no AI-twitter noise.
+
+**Membership:** Free. Application required.
+
+**What you get:**
+- Weekly technical write-ups on emerging threat classes
+- Live PoC reviews: bring your own vulnerability research, get feedback from the founder and other practitioners
+- Monthly threat-intel briefing: patterns across the audits, emerging MCP risks, vendor patch tracking
+- Async support channel for questions about your own deployments
+
+**Who qualifies:** Security engineers with hands-on AI/LLM experience, architects designing agentic systems, compliance leads evaluating AI risk, or AI red-teamers.
+
+---
+
+# Page: Pricing
+
+> Source: https://vectorbreak.com#pricing
+
+## A Ladder, Not a Tier
+
+Fixed-fee at every level. No hourly creep. No "as-needed" travel costs. PoCs and infrastructure on me. 60% on signature, 30% at delivery, 10% on retest sign-off.
+
+| SKU | Scope | Duration | From |
+|-----|-------|----------|------|
+| **Pulse** | Public 10-probe Surface-3 battery against your MCP server(s). 1-page red/yellow/green + 30-min readout. | 1 day | $4,500 |
+| **MCP Triage** | Surface 3 only — full fuzzer run + manual creative testing + findings memo. | 1 week | $12,500 |
+| **Pilot** | Single in-scope surface, single product. Full deliverable shape, narrower target. | 2 weeks | $28,500 |
+| **Standard** | One product, ≤3 MCP servers, ≤2 retrieval pipelines, all five surfaces in scope. | 4 weeks | $48,500 |
+| **Multi-Agent** | Standard + multi-agent orchestration (LangGraph / AutoGen / CrewAI), 4–6 MCP servers, sub-agent trust analysis. | 4 weeks | $78,500 |
+| **Compliance-Anchored** | Standard + EU AI Act Article 15/16/26 conformity mapping + ISO/IEC 42001 Annex A + insurance-attestation pack. | 5 weeks | $125,000 |
+| **Annual Program** | Quarterly assessments + monthly threat-intel briefing + 24-hr emergency-triage SLA + annual board readout. | 12 months | $185K – $285K |
+
+### Pricing Notes
+
+**Pulse** is a quick MCP-only battery. Best for: teams shipping a single MCP server who want a rapid risk signal before going live.
+
+**MCP Triage** is deeper single-surface coverage. Best for: teams with multiple MCP servers or a complex MCP environment.
+
+**Pilot** is the entry-point full engagement: one surface + one product. Best for: first-time audit customers, or narrowly-scoped expansion engagements.
+
+**Standard** is the flagship: all five surfaces, one product, up to 3 MCP servers and 2 retrieval pipelines. Best for: production AI products, RAG systems, typical multi-surface deployments.
+
+**Multi-Agent** adds orchestration and trust analysis. Best for: CrewAI, LangGraph, AutoGen deployments where multiple agents with different trust levels interact.
+
+**Compliance-Anchored** adds EU AI Act mapping, ISO/IEC 42001 alignment, and insurance-attestation language. Best for: EU deployment, regulated industries, insurance renewal cycles.
+
+**Annual Program** shifts to quarterly cadence + threat-intel + emergency support. Best for: ongoing risk management, continuous compliance, and enterprises that want standing access to the founder.
+
+### Payment Terms
+
+- 60% on signature (kicks off the engagement)
+- 30% at delivery (findings delivered, report reviewed)
+- 10% at retest sign-off (retest completed, no new findings)
+
+---
+
+# Page: Founder
+
+> Source: https://vectorbreak.com#founder
+
+## The Expert You're Hiring: Vector Layer
+
+Founder, Vectorbreak. Maintainer, Five Surfaces. Author, mcp-fuzzer.
+
+**Background:** Two decades in offensive security and infrastructure. Deep expertise in AI red-teaming, LLM vulnerability research, and agentic systems design.
+
+**Methodology:** Author of the Five Surfaces framework — the canonical threat model for LLM-application security, mapping 69 risk classes across 5 attack surfaces. OWASP-ASI and MITRE-ATLAS aligned.
+
+**Tooling:** Author of mcp-fuzzer, an open-source fuzzing harness for Model Context Protocol servers. 139 unit tests, CI across Ubuntu, macOS, and Windows. Thirty-four adversarial MCP tools across seven Surface-3 risk families.
+
+**Case Studies:** All eight public case studies (including the cross-family FAIL verdicts on MiniMax-M2 and gpt-oss:120b) were authored solo. Six PASS verdicts validate the methodology against Claude-family deployments.
+
+**Engagements:** Every Vectorbreak engagement is authored by the founder. Your code is not subcontracted to a junior analyst pool. There is no junior analyst pool.
+
+**Current Disclosure Pipeline:** Cursor cross-family disclosure and an Antigravity MCP env-block bug, both pending coordinated release through vendor channels.
+
+**Contact:** Lance@vectorbreak.com
+
+---
+
+# Page: Community
+
+> Source: https://vectorbreak.com#community
+
+## Practitioners Only. Application Required.
+
+A vetted private community of AI red-teamers, AppSec engineers, ML-platform people, and compliance leads. Weekly threat-class write-ups, live PoC reviews, monthly threat-intel briefing. No vendors, no recruiters, no AI-twitter noise.
+
+### Membership Tiers
+
+| Tier | Cost | Application | What You Get |
+|------|------|-------------|--------------|
+| Practitioner | Free | Required | Weekly threat-class drops, PoC reviews, monthly threat-intel briefing, async Q&A |
+| (Sponsor tier TBD) | TBD | Automatic | (Additional benefits for Vectorbreak clients and strategic partners) |
+
+### How to Apply
+
+Email Lance@vectorbreak.com with the subject line: **"Discord invite request"**
+
+Include:
+- Your background (role, company, years in security/AI)
+- What you'd bring to the community (research interests, expertise, tooling you maintain)
+
+Response: 24–48 hours. No qualifier form, no sales pitch. Just a conversation about whether the community is a fit.
+
+### What to Expect
+
+**Weekly:** Threat-class write-ups covering emerging attack patterns, new MCP vulnerabilities, and real findings from recent audits (anonymized).
+
+**Bi-weekly:** Live PoC review sessions. Bring your own vulnerability research, PoC, or attack idea. Get feedback from the founder and other practitioners.
+
+**Monthly:** Threat-intel briefing. Patterns across audits, vendor patch tracking, and what's shifting in the MCP ecosystem.
+
+**Anytime:** Async Q&A channel for questions about your own deployments, career guidance, and research rabbit holes.
+
+### Community Guidelines
+
+- Practitioners only: security engineers, architects, and researchers with hands-on experience.
+- No vendors, no recruiters. If you're selling something, the community isn't for you.
+- No AI-twitter noise. Technical depth, not hype.
+- Confidentiality: what's discussed in the community stays in the community.
+
+---
+
+# Page: Contact
+
+> Source: https://vectorbreak.com#contact
+
+## Scope an Engagement
+
+Two questions. Forty-eight hours. One fixed-fee proposal.
+
+### The Two Questions
+
+**Question 01:** What are you shipping, and which model(s) and which MCP servers does it touch?
+
+Example: "Claude Code + Opus 4.7 backend, 3 MCP servers (filesystem, web_fetch, custom_data), RAG pipeline on Pinecone."
+
+**Question 02:** What decision is the audit driving — insurance renewal, EU AI Act conformity, acquirer diligence, customer questionnaire?
+
+Example: "Insurance renewal; our carrier now requires an AI-specific red-team before they'll quote the next cycle."
+
+### The Process
+
+1. Email Lance@vectorbreak.com with your two answers.
+2. Founder reviews within 24 hours.
+3. 30-minute discovery call (optional, if you want to dive deeper).
+4. Fixed-fee proposal arrives within 48 hours of your submission.
+5. Engagement kicks off on a mutually agreed date.
+
+### Why This Works
+
+- **Direct line to founder.** No SDR layer, no qualifier form. You're talking to the person who will do the work.
+- **Fixed-fee from day one.** No surprises, no "as-needed" creep. The proposal price is the price.
+- **Fast turnaround.** 48 hours from submission to proposal. If you need a decision fast (insurance renewal deadlines, M&A diligence timelines), we can move.
+- **No sales pitch.** The discovery call is threat-modeling, not upselling. If a smaller SKU fits, we'll say so.
+
+### Contact Information
+
+**Email:** Lance@vectorbreak.com
+
+**Response SLA:** 24 hours, guaranteed.
+
+**Alternative:** Join the Discord community and ask there. Founder reads the community channels daily.
+
+---
+
+## Metadata
+
+- **Five Surfaces v0.1** — methodology finalized May 2026
+- **Case studies:** 8 public + 1 under NDA; all authored solo
+- **mcp-fuzzer:** 139 unit tests, all green; CI Ubuntu/macOS/Windows
+- **Founded:** May 2026
+- **Location:** Remote
+- **Business model:** Fixed-fee consulting, training, custom engineering; community free
+- **Contact:** Lance@vectorbreak.com

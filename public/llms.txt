@@ -1,0 +1,48 @@
+# Vectorbreak
+
+> AI red-team audits, training, and custom defensive engineering for agentic and RAG-enabled systems. The Five Surfaces methodology — 5 attack surfaces, 69 risk classes, 8 published case studies.
+
+Vectorbreak helps teams shipping AI agents, RAG pipelines, and LLM-integrated products find and fix security problems before production incidents. Founded 2026. Solo-authored methodology and case studies.
+
+## Core
+
+- [Homepage](https://vectorbreak.com): Product positioning, services, and methodology overview
+- [Five Surfaces Methodology](https://vectorbreak.com#methodology): The canonical threat model covering model, context, retrieval, tools/MCP, and runtime
+
+## Services
+
+- [Audit](https://vectorbreak.com#pricing): Fixed-fee red-team engagements from $4.5k (Pulse) to $285k (Annual Program)
+- [Training & Education](https://vectorbreak.com#services): Two-day Five Surfaces workshop with hands-on labs
+- [Custom Build](https://vectorbreak.com#services): Defensive tooling, MCP hardening, prompt-injection monitoring, agent-loop circuit breakers
+- [Community](https://vectorbreak.com#community): Vetted Discord for practitioners — weekly threat-class drops, live PoC reviews, monthly threat-intel briefing
+
+## Methodology
+
+- [Five Surfaces Overview](https://vectorbreak.com#methodology): 5 surfaces, 69 risk classes, OWASP-ASI + MITRE-ATLAS mapped
+- [Surface 1: Input/Output](https://vectorbreak.com#methodology): Direct prompts, jailbreaks, output sanitization, multi-modal injection (13 classes)
+- [Surface 2: Retrieval](https://vectorbreak.com#methodology): RAG corpora, indexers, indirect injection, knowledge-base poisoning (11 classes)
+- [Surface 3: Tool-call/MCP](https://vectorbreak.com#methodology): Function calling, MCP servers, tool poisoning, privilege escalation (20 classes)
+- [Surface 4: Model](https://vectorbreak.com#methodology): Weights, adapter chains, system prompts, training-data extraction (11 classes)
+- [Surface 5: Runtime](https://vectorbreak.com#methodology): Sandbox escape, prompt-to-RCE, agent loops, memory persistence (14 classes)
+
+## Case Studies
+
+- [Public Case Studies](https://vectorbreak.com#receipts): 8 documented assessments; 6 PASS (Claude-family), 2 FAIL (cross-family direct-to-model)
+- [Case 01–06](https://vectorbreak.com#receipts): PASS verdicts on Claude Code (Opus 4.7, Sonnet 4.6, Haiku 4.5), Antigravity Opus 4.6, extended testing
+- [Case 07–08](https://vectorbreak.com#receipts): FAIL verdicts on MiniMax-M2 and gpt-oss:120b (direct-to-model, 16–38 findings each)
+
+## Resources
+
+- [Request Five Surfaces Paper](mailto:Lance@vectorbreak.com?subject=Five%20Surfaces%20methodology%20request): Full methodology whitepaper
+- [Request Case Study Access](mailto:Lance@vectorbreak.com?subject=Case%20study%20access%20request): Detailed findings from public audits
+- [MCP Scanner](https://vectorbreak.com): Commercial scanner for prompt injection, tool impersonation, credential leakage in MCP deployments (v1.0.0, Pro tier with auto-remediation)
+
+## About
+
+- [Founder](https://vectorbreak.com#founder): Vector Layer (Lance) — 20 years in offensive security and infrastructure; author of Five Surfaces and mcp-fuzzer (139 unit tests, CI Ubuntu/macOS/Windows)
+- [Contact](https://vectorbreak.com#contact): Lance@vectorbreak.com — direct line to founder, 24-hour response SLA
+
+## Optional
+
+- [LinkedIn Posts](https://linkedin.com): Founding announcement, Five Surfaces explainer, MCP Scanner intro
+- [YouTube Channel](https://youtube.com/@VectorbreakSec): 11-video launch series covering MCP threat landscape, methodology deep-dives, and incident case studies

@@ -1,0 +1,24 @@
+{
+  "@context": "https://schema.org",
+  "@type": "Person",
+  "@id": "https://vectorbreak.com/#person-lance",
+  "name": "Lance",
+  "jobTitle": "Founder & Security Expert",
+  "description": "20-year security and infrastructure expert specializing in AI safety, red-teaming, and Model Context Protocol security. Author of the Five Surfaces methodology, an adversarial risk framework for LLM-backed systems. Maintainer of open-source MCP security tools including mcp-fuzzer with 139 unit tests across Ubuntu, macOS, and Windows. Published solo-authored red-team case studies across Claude-family models and open-source LLMs, establishing methodology credibility through both PASS and FAIL verdicts.",
+  "worksFor": {
+    "@id": "https://vectorbreak.com/#organization"
+  },
+  "knowsAbout": [
+    "Offensive Security",
+    "Infrastructure Security",
+    "AI System Security",
+    "MCP Threat Modeling",
+    "Red-Team Methodology",
+    "LLM Security Testing",
+    "Supply Chain Security"
+  ],
+  "sameAs": [
+    "https://www.linkedin.com/in/lance-vectorbreak",
+    "https://github.com/vectorbreak-security"
+  ]
+}

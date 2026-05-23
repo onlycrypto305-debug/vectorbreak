@@ -1,0 +1,61 @@
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Service",
+      "@id": "https://vectorbreak.com/#service-audit",
+      "name": "AI Security Audit",
+      "serviceType": "Red-Team Assessment",
+      "provider": { "@id": "https://vectorbreak.com/#organization" },
+      "areaServed": "Worldwide",
+      "description": "Fixed-scope red-team engagements against your live AI agent or RAG pipeline using the Five Surfaces methodology. Deliverable includes comprehensive findings report, retest engagement, sign-off letter for compliance, insurance-grade audit, and carrier/acquirer-ready documentation.",
+      "offers": {
+        "@type": "AggregateOffer",
+        "priceCurrency": "USD",
+        "lowPrice": "4500",
+        "highPrice": "285000",
+        "priceSpecification": [
+          { "@type": "PriceSpecification", "name": "Pulse",                "price": "4500",   "description": "10-probe Surface-3 battery (1 day)" },
+          { "@type": "PriceSpecification", "name": "MCP Triage",           "price": "12500",  "description": "Surface 3 focused assessment (1 week)" },
+          { "@type": "PriceSpecification", "name": "Pilot",                "price": "28500",  "description": "Single surface, single product (2 weeks)" },
+          { "@type": "PriceSpecification", "name": "Standard",             "price": "48500",  "description": "All five surfaces, one product (4 weeks)" },
+          { "@type": "PriceSpecification", "name": "Multi-Agent",          "price": "78500",  "description": "Multi-agent orchestration assessment (4 weeks)" },
+          { "@type": "PriceSpecification", "name": "Compliance-Anchored",  "price": "125000", "description": "EU AI Act + ISO/IEC 42001 + insurance pack (5 weeks)" },
+          { "@type": "PriceSpecification", "name": "Annual Program",       "price": "185000", "description": "Quarterly assessments + threat intel + emergency SLA (12 months)" }
+        ]
+      },
+      "category": "Cybersecurity Service"
+    },
+    {
+      "@type": "Service",
+      "@id": "https://vectorbreak.com/#service-training",
+      "name": "Training & Education",
+      "serviceType": "Hands-On Workshop",
+      "provider": { "@id": "https://vectorbreak.com/#organization" },
+      "areaServed": "Worldwide",
+      "description": "Two-day on-site or virtual Five Surfaces workshop for AppSec, ML, and platform teams. Hands-on labs against intentionally vulnerable agents, certification track, and 90 days of async Q&A and follow-up review.",
+      "offers": {
+        "@type": "Offer",
+        "priceCurrency": "USD",
+        "price": "60000",
+        "description": "Workshop engagement from $60k, custom pricing based on team size and scope"
+      },
+      "category": "Educational Service"
+    },
+    {
+      "@type": "Service",
+      "@id": "https://vectorbreak.com/#service-build",
+      "name": "Custom Defensive Build",
+      "serviceType": "Custom Engineering",
+      "provider": { "@id": "https://vectorbreak.com/#organization" },
+      "areaServed": "Worldwide",
+      "description": "Custom defensive tooling: hardened MCP servers, attestation pipelines, prompt-injection monitoring, agent-loop circuit breakers, automated red-team CI. Built to your stack and maintained on retainer if needed.",
+      "offers": {
+        "@type": "Offer",
+        "priceCurrency": "USD",
+        "description": "Custom fixed-fee engagements"
+      },
+      "category": "Software Development Service"
+    }
+  ]
+}

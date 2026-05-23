@@ -1,0 +1,31 @@
+{
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  "@id": "https://vectorbreak.com/#product-mcp-scanner",
+  "name": "MCP Scanner",
+  "description": "Commercial vulnerability scanner for Model Context Protocol deployments. Detects prompt-injection sinks, tool impersonation, credential leakage, unsafe server configurations, and confused-deputy patterns. Treats MCP servers as the supply-chain surface they actually are. Includes Pro tier with auto-remediation bundles.",
+  "applicationCategory": "SecurityApplication",
+  "operatingSystem": ["Windows", "macOS", "Linux"],
+  "softwareVersion": "1.0.0",
+  "releaseDate": "2026-05-19",
+  "provider": { "@id": "https://vectorbreak.com/#organization" },
+  "offers": {
+    "@type": "Offer",
+    "name": "MCP Scanner Pro License",
+    "priceCurrency": "USD",
+    "price": "TBD",
+    "description": "Commercial Pro license with auto-remediation bundle generation and priority support"
+  },
+  "featureList": [
+    "Prompt-injection sink detection",
+    "Tool impersonation discovery",
+    "Credential leakage analysis",
+    "MCP server configuration audit",
+    "Confused-deputy pattern detection",
+    "Auto-remediation bundle generation",
+    "Full Surface-3 fuzzer battery",
+    "JSON report export"
+  ],
+  "softwareRequirements": "Model Context Protocol compatible environment",
+  "license": "https://vectorbreak.com/mcp-scanner/license"
+}

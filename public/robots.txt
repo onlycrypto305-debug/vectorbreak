@@ -1,0 +1,34 @@
+# Vectorbreak robots.txt
+# Hand-authored. Replaces Cloudflare's default AI-Content-Signals template.
+#
+# Allow all crawlers on canonical site. Sitemap listed below.
+# LLM crawlers explicitly welcomed for LLMs-based search & citation.
+
+User-agent: *
+Allow: /
+Disallow:
+
+# Explicit LLM crawler allowance
+User-agent: GPTBot
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: CCBot
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+
+User-agent: anthropic-ai
+Allow: /
+
+User-agent: cohere-ai
+Allow: /
+
+# Sitemap location
+Sitemap: https://vectorbreak.com/sitemap.xml

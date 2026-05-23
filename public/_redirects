@@ -1,0 +1,4 @@
+# Cloudflare Pages redirect rules (CF-specific syntax, NOT Netlify)
+
+# Canonical redirect: www.vectorbreak.com -> https://vectorbreak.com
+https://www.vectorbreak.com/* https://vectorbreak.com/:splat 301

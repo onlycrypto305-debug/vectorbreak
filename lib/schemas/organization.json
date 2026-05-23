@@ -1,0 +1,34 @@
+{
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "@id": "https://vectorbreak.com/#organization",
+  "name": "Vectorbreak",
+  "url": "https://vectorbreak.com",
+  "logo": "https://vectorbreak.com/logo.svg",
+  "email": "Lance@vectorbreak.com",
+  "description": "AI security consulting, red-teaming, and defensive engineering for agentic and RAG-enabled AI systems. Productized audits, training, and custom builds based on the Five Surfaces methodology.",
+  "sameAs": [
+    "https://www.linkedin.com/company/vectorbreak-security",
+    "https://www.youtube.com/@VectorbreakSec",
+    "https://github.com/vectorbreak-security"
+  ],
+  "knowsAbout": [
+    "AI Security",
+    "Red-Teaming",
+    "MCP Security",
+    "Large Language Models",
+    "Prompt Injection",
+    "AI Agent Security",
+    "RAG Security",
+    "Adversarial Testing"
+  ],
+  "founder": {
+    "@id": "https://vectorbreak.com/#person-lance"
+  },
+  "address": {
+    "@type": "PostalAddress",
+    "addressCountry": "US"
+  },
+  "areaServed": "Worldwide",
+  "priceRange": "$$$"
+}

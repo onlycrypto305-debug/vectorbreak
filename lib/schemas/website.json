@@ -1,0 +1,9 @@
+{
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  "@id": "https://vectorbreak.com/#website",
+  "url": "https://vectorbreak.com",
+  "name": "Vectorbreak",
+  "description": "Red-team your AI agent before someone else does. Productized red-teaming, defensive engineering, and training for agentic and RAG-enabled AI systems.",
+  "publisher": { "@id": "https://vectorbreak.com/#organization" }
+}

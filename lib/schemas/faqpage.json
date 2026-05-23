@@ -1,0 +1,86 @@
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "What is the Five Surfaces methodology?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Five Surfaces is an adversarial risk framework for LLM-backed systems that maps five distinct attack surfaces: Input/Output (direct prompts, jailbreaks), Retrieval (RAG corpora, indirect injection), Tool-Call/MCP (function calling, server poisoning), Model (weights, training-data extraction), and Runtime (sandbox escape, agent loops). Each surface has distinct threat models and remediation patterns. Unlike traditional web-app pentesting, Five Surfaces is purpose-built for LLM security and covers the 69 risk classes most commonly found in production."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What is MCP and why do I need to audit it?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Model Context Protocol (MCP) allows LLM agents to call external tools and services. Each MCP server is unsigned code with privileged access to your model's context window—effectively a supply-chain risk. Vectorbreak treats MCP as the critical attack surface it is. Our scanner detects tool impersonation, prompt-injection sinks, credential leakage, and unsafe configurations before they become production incidents."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How does Vectorbreak's red-teaming differ from traditional pentesting?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Traditional pentesting assumes attacker goals like data theft or system access. AI red-teaming assumes the attacker is trying to make the model say or do something the developer didn't authorize. The threat model is fundamentally different—it's about behavioral control, not system compromise. Vectorbreak's methodology focuses on model-specific vectors like prompt injection, jailbreaks, context confusion, and tool misuse that web-app methodologies miss entirely."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Can you test for prompt injection in production?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. Vectorbreak conducts live red-team audits against production AI agents without disrupting service. Our Surface-3 (Tool-Call/MCP) battery includes 20 distinct risk classes that catch tool impersonation, privilege escalation, and context confusion. We use fixed-scope engagements with clear start/end dates, insurance-grade deliverables, and sign-off letters for compliance teams."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Do you support EU AI Act compliance audits?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. Our Compliance-Anchored engagement tier ($125k, 5 weeks) includes Five Surfaces assessment plus explicit Article 15/16/26 conformity mapping, ISO/IEC 42001 Annex A alignment, and insurance-attestation packs ready for your compliance team and acquirer's diligence review."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How much does a Vectorbreak engagement cost?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "All Vectorbreak engagements are fixed-fee. Our ladder starts at Pulse ($4.5k, 1 day) for MCP-only assessments and goes up to Annual Program ($185k–$285k) for quarterly reviews plus threat-intel briefing. Most companies start with Pilot ($28.5k, 2 weeks) or Standard ($48.5k, 4 weeks). Payment is 60% on signature, 30% at delivery, 10% on retest sign-off. No hourly creep, no travel cost surprises."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Who is Lance, the founder?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Lance is a 20-year security and infrastructure expert with deep expertise in AI systems, red-teaming, and MCP security. He authored the Five Surfaces methodology and maintains open-source MCP tools including mcp-fuzzer (139 unit tests, CI across three OSes). All case studies—including the public FAIL verdicts on MiniMax-M2 and gpt-oss:120b—are solo-authored. There is no junior analyst pool; your engagement is conducted solely by the founder."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How long does a typical audit take?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Engagement duration depends on scope. Pulse (MCP-only) is 1 day. Pilot (single surface) is 2 weeks. Standard (five surfaces, one product, ≤3 MCP servers) is 4 weeks. Multi-Agent (orchestration + trust analysis) is 4 weeks. Compliance-Anchored adds 1 week. All include a retest cycle. We meet the timeline or refund the unused portion."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What happens after you find vulnerabilities?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Every Vectorbreak audit includes a retest engagement to confirm remediations. We deliver a sign-off letter for your insurance carrier, compliance team, and M&A due diligence. The Custom Build service lets you hire us to ship the defensive tooling directly—hardened MCP servers, prompt-injection monitoring, agent-loop circuit breakers, and CI-integrated red-teaming pipelines maintained on retainer."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Where can I learn more about the methodology?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "The full Five Surfaces paper is available by request at Lance@vectorbreak.com. We've published eight case studies validating the methodology across Claude-family hosts (6 PASS) and open-source models (2 FAIL). The methodology is MIT-licensed and mapped to OWASP-ASI, MITRE-ATLAS, and OWASP-LLM-Top-10 frameworks. Request the paper or join our vetted Discord community of AI red-teamers and AppSec practitioners."
+      }
+    }
+  ]
+}

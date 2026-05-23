@@ -1,0 +1,16 @@
+Contact: mailto:Lance@vectorbreak.com
+Expires: 2027-05-23T00:00:00.000Z
+Preferred-Languages: en
+Canonical: https://vectorbreak.com/.well-known/security.txt
+Policy: https://vectorbreak.com/security-policy
+
+# PGP Signature
+# Owner should add PGP signature below before deploying to production.
+# Example:
+# -----BEGIN PGP SIGNED MESSAGE-----
+# Hash: SHA256
+#
+# [signed content above]
+# -----BEGIN PGP SIGNATURE-----
+# [signature here]
+# -----END PGP SIGNATURE-----
