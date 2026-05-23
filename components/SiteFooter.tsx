@@ -118,7 +118,7 @@ export function SiteFooter() {
             color: "var(--color-mute)",
           }}
         >
-          <p>Copyright © 2026 Vectorbreak Security LLC. All rights reserved.</p>
+          <p>Copyright © 2026 Vectorbreak LLC. All rights reserved.</p>
           <p>vectorbreak.com</p>
         </div>
       </div>

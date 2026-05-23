@@ -83,7 +83,7 @@ export function Services() {
           </h2>
           <Reveal delay={0.7}>
             <p className="lead mt-10 mx-auto max-w-2xl">
-              Four ways to engage Vectorbreak Security, depending on the decision
+              Four ways to engage Vectorbreak, depending on the decision
               you&rsquo;re driving and the team you already have in place.
             </p>
           </Reveal>

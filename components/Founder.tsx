@@ -24,7 +24,7 @@ export function Founder() {
           </h2>
           <Reveal delay={0.5}>
             <p className="h-sub mt-6" style={{ color: "var(--color-mute2)" }}>
-              Founder · Vectorbreak Security · Maintainer · Five Surfaces
+              Founder · Vectorbreak · Maintainer · Five Surfaces
             </p>
           </Reveal>
         </div>
