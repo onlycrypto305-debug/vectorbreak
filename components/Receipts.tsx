@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { motion } from "framer-motion";
 import { Reveal } from "@/components/Reveal";
 import { WordCascade } from "@/components/WordCascade";
@@ -148,13 +149,20 @@ export function Receipts() {
           </table>
         </div>
 
-        <div className="mt-16 text-center">
-          <a
-            href="mailto:Lance@vectorbreak.com?subject=Case%20study%20access%20request"
+        <div className="mt-16 flex flex-wrap justify-center gap-x-8 gap-y-3">
+          <Link
+            href="/case-studies/"
             className="inline-flex items-center gap-1 hover:gap-2 transition-all text-sm font-medium"
             style={{ color: "var(--color-gold-light)" }}
           >
-            Request full case-study access &rarr;
+            View all 8 case studies &rarr;
+          </Link>
+          <a
+            href="mailto:Lance@vectorbreak.com?subject=Case%20study%20access%20request"
+            className="inline-flex items-center gap-1 hover:gap-2 transition-all text-sm font-medium"
+            style={{ color: "var(--color-mute2)" }}
+          >
+            Or request full access (NDA) &rarr;
           </a>
         </div>
       </div>
