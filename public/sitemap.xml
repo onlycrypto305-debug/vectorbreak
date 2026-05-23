@@ -12,8 +12,6 @@
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
-
-  <!-- Uncomment as routes ship.
   <url>
     <loc>https://vectorbreak.com/methodology/</loc>
     <lastmod>2026-05-23</lastmod>
@@ -24,7 +22,7 @@
     <loc>https://vectorbreak.com/services/audit/</loc>
     <lastmod>2026-05-23</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
+    <priority>0.85</priority>
   </url>
   <url>
     <loc>https://vectorbreak.com/services/training/</loc>
@@ -42,8 +40,17 @@
     <loc>https://vectorbreak.com/case-studies/</loc>
     <lastmod>2026-05-23</lastmod>
     <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
+    <priority>0.85</priority>
   </url>
+  <url><loc>https://vectorbreak.com/case-studies/minimax-m2/</loc><lastmod>2026-05-23</lastmod><changefreq>yearly</changefreq><priority>0.75</priority></url>
+  <url><loc>https://vectorbreak.com/case-studies/gpt-oss-120b/</loc><lastmod>2026-05-23</lastmod><changefreq>yearly</changefreq><priority>0.75</priority></url>
+  <url><loc>https://vectorbreak.com/case-studies/claude-code-opus-4-7/</loc><lastmod>2026-05-23</lastmod><changefreq>yearly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://vectorbreak.com/case-studies/claude-code-opus-4-7-extended/</loc><lastmod>2026-05-23</lastmod><changefreq>yearly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://vectorbreak.com/case-studies/antigravity-opus-4-6-thinking/</loc><lastmod>2026-05-23</lastmod><changefreq>yearly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://vectorbreak.com/case-studies/claude-code-sonnet-4-6/</loc><lastmod>2026-05-23</lastmod><changefreq>yearly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://vectorbreak.com/case-studies/claude-code-haiku-4-5/</loc><lastmod>2026-05-23</lastmod><changefreq>yearly</changefreq><priority>0.7</priority></url>
+
+  <!-- Uncomment as routes ship.
   <url>
     <loc>https://vectorbreak.com/mcp-scanner/</loc>
     <lastmod>2026-05-23</lastmod>
