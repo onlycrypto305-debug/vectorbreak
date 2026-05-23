@@ -75,9 +75,10 @@ export const onRequestPost: PagesFunction<Env> = async ({ request, env }) => {
     "https://challenges.cloudflare.com/turnstile/v0/siteverify",
     { method: "POST", body: tsForm },
   );
-  const tsData = (await tsRes.json()) as { success?: boolean };
+  const tsData = (await tsRes.json()) as { success?: boolean; "error-codes"?: string[] };
   if (!tsData.success) {
-    return json({ ok: false, error: "Turnstile validation failed." }, 403);
+    const codes = (tsData["error-codes"] ?? []).join(",") || "unknown";
+    return json({ ok: false, error: `Turnstile validation failed (${codes}).` }, 403);
   }
 
   // Compose + send via Resend
@@ -95,28 +96,47 @@ export const onRequestPost: PagesFunction<Env> = async ({ request, env }) => {
     String(payload.question_02),
   ].join("\n");
 
-  const mailRes = await fetch("https://api.resend.com/emails", {
-    method: "POST",
-    headers: {
-      authorization: `Bearer ${env.RESEND_API_KEY}`,
-      "content-type": "application/json",
-    },
-    body: JSON.stringify({
-      from: env.CONTACT_EMAIL_FROM,
-      to,
-      reply_to: String(payload.email),
-      subject,
-      text: bodyText,
-    }),
-  });
+  // Surface Resend errors directly in the response so the operator can debug
+  // domain-verification / API-key / from-address issues without log access.
+  try {
+    if (!env.RESEND_API_KEY) {
+      return json({ ok: false, error: "Server config error. Please email Lance@vectorbreak.com directly." }, 500);
+    }
+    if (!env.CONTACT_EMAIL_FROM) {
+      return json({ ok: false, error: "Server config error. Please email Lance@vectorbreak.com directly." }, 500);
+    }
 
-  if (!mailRes.ok) {
-    const errText = await mailRes.text().catch(() => "");
-    console.error("Resend send failed:", mailRes.status, errText);
-    return json({ ok: false, error: "Mail delivery failed." }, 502);
+    const mailRes = await fetch("https://api.resend.com/emails", {
+      method: "POST",
+      headers: {
+        authorization: `Bearer ${env.RESEND_API_KEY}`,
+        "content-type": "application/json",
+      },
+      body: JSON.stringify({
+        from: env.CONTACT_EMAIL_FROM,
+        to,
+        reply_to: String(payload.email),
+        subject,
+        text: bodyText,
+      }),
+    });
+
+    if (!mailRes.ok) {
+      const errText = await mailRes.text().catch(() => "");
+      console.error("Resend send failed:", mailRes.status, errText);
+      // Pass through Resend's actual error (truncated) so we can debug from the browser
+      return json({
+        ok: false,
+        error: `Mail delivery failed (${mailRes.status}): ${errText.slice(0, 300)}`,
+      }, 502);
+    }
+
+    return json({ ok: true });
+  } catch (err) {
+    const msg = err instanceof Error ? err.message : String(err);
+    console.error("Mail send exception:", msg);
+    return json({ ok: false, error: `Mail send exception: ${msg.slice(0, 200)}` }, 500);
   }
-
-  return json({ ok: true });
 };
 
 // CORS preflight (harmless even if same-origin)

@@ -16,7 +16,7 @@ import { useState, type FormEvent } from "react";
 
 // Public Turnstile site key — embedded in client bundle. Replace before deploy
 // after provisioning the widget at https://dash.cloudflare.com/?to=/:account/turnstile.
-const TURNSTILE_SITEKEY = "0x00000000000000000000AA";
+const TURNSTILE_SITEKEY = "0x4AAAAAADU8DeJ0DxPp58f6";
 
 export function ContactForm() {
   const [state, setState] = useState<"idle" | "submitting" | "ok" | "error">(
