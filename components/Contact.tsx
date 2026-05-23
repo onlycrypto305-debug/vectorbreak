@@ -1,6 +1,6 @@
 import { Reveal } from "@/components/Reveal";
 import { WordCascade } from "@/components/WordCascade";
-import { MagneticPill } from "@/components/MagneticPill";
+import { ContactForm } from "@/components/ContactForm";
 
 export function Contact() {
   return (
@@ -30,70 +30,39 @@ export function Contact() {
           />
         </h2>
 
-        <div className="mt-20 grid md:grid-cols-2 gap-12 text-left">
-          <div>
-            <p
-              className="h-eyebrow"
-              style={{ color: "var(--color-gold-light)" }}
-            >
-              QUESTION 01
-            </p>
-            <p
-              className="mt-4 h-sub"
-              style={{ color: "var(--color-textl)" }}
-            >
-              What are you shipping, and which model(s) and which MCP servers
-              does it touch?
-            </p>
-          </div>
-          <div>
-            <p
-              className="h-eyebrow"
-              style={{ color: "var(--color-gold-light)" }}
-            >
-              QUESTION 02
-            </p>
-            <p
-              className="mt-4 h-sub"
-              style={{ color: "var(--color-textl)" }}
-            >
-              What decision is the audit driving — insurance renewal, EU AI Act
-              conformity, acquirer diligence, customer questionnaire?
-            </p>
-          </div>
-        </div>
-
-        <div className="mt-20 flex flex-wrap justify-center gap-4">
-          <MagneticPill
-            href="mailto:Lance@vectorbreak.com?subject=Vectorbreak%20Security%20engagement%20enquiry"
-            className="inline-flex items-center gap-2 px-6 py-3 text-sm font-medium transition-colors hover:opacity-90"
+        <Reveal delay={0.7}>
+          <div
+            className="mt-20 mx-auto"
             style={{
-              background: "var(--color-gold-light)",
-              color: "#000",
-              borderRadius: 980,
+              maxWidth: 760,
+              background: "rgba(255, 255, 255, 0.02)",
+              border: "1px solid var(--color-rule-dark)",
+              padding: "2.5rem",
             }}
           >
-            Lance@vectorbreak.com
-          </MagneticPill>
-          <a
-            href="#community"
-            className="inline-flex items-center gap-2 px-6 py-3 text-sm font-medium transition-colors hover:bg-[var(--color-textl)] hover:text-[var(--color-ink)]"
-            style={{
-              border: "1px solid var(--color-textl)",
-              color: "var(--color-textl)",
-              borderRadius: 980,
-            }}
-          >
-            Or join Discord
-          </a>
-        </div>
+            <ContactForm />
+          </div>
+        </Reveal>
 
         <p
-          className="mt-16"
+          className="mt-12"
           style={{ color: "var(--color-mute2)", fontSize: "0.95rem" }}
         >
-          Direct line to founder. No SDR layer. No qualifier form. Response in
-          24 hours.
+          Direct line to founder. No SDR layer. Response in 24 hours.
+        </p>
+
+        <p
+          className="mt-3 text-xs"
+          style={{ color: "var(--color-mute)" }}
+        >
+          Or{" "}
+          <a
+            href="#community"
+            style={{ color: "var(--color-gold-light)" }}
+          >
+            join the practitioner Discord
+          </a>{" "}
+          if you&rsquo;re here to talk shop, not scope an engagement.
         </p>
       </div>
     </section>

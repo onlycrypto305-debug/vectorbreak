@@ -13,21 +13,32 @@ interface Receipt {
   redacted?: boolean;
 }
 
+// Display order — FAILs lead. Case-study IDs (#07, #08) preserved so other
+// docs that reference "case study 03" still resolve. Per ux-lead review:
+// "The two FAILs are the empirical differentiator. Lead the table with them,
+// then the PASSes — table order should support the body copy's argument
+// (methodology bites cross-family, holds up within-family)."
 const RECEIPTS: Receipt[] = [
+  {
+    n: "07",
+    target: "Direct-to-model · MiniMax-M2",
+    scope: "FS1 · FS3 · FS4",
+    findings: "16 (12 HIGH)",
+    verdict: "FAIL",
+  },
+  {
+    n: "08",
+    target: "Direct-to-model · gpt-oss:120b",
+    scope: "FS1 · FS3 · FS4 · FS5",
+    findings: "38 (36 HIGH)",
+    verdict: "FAIL",
+  },
   {
     n: "01",
     target: "Claude Code · Opus 4.7",
     scope: "FS3 · full battery",
     findings: "0",
     verdict: "PASS",
-  },
-  {
-    n: "02",
-    target: "Redacted under NDA",
-    scope: "—",
-    findings: "—",
-    verdict: "UNDER NDA",
-    redacted: true,
   },
   {
     n: "03",
@@ -58,18 +69,12 @@ const RECEIPTS: Receipt[] = [
     verdict: "STRONG PASS",
   },
   {
-    n: "07",
-    target: "Direct-to-model · MiniMax-M2",
-    scope: "FS1 · FS3 · FS4",
-    findings: "16 (12 HIGH)",
-    verdict: "FAIL",
-  },
-  {
-    n: "08",
-    target: "Direct-to-model · gpt-oss:120b",
-    scope: "FS1 · FS3 · FS4 · FS5",
-    findings: "38 (36 HIGH)",
-    verdict: "FAIL",
+    n: "02",
+    target: "Redacted under NDA",
+    scope: "—",
+    findings: "—",
+    verdict: "UNDER NDA",
+    redacted: true,
   },
 ];
 
