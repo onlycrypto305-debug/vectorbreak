@@ -9,8 +9,10 @@ import {
   Group,
   LineBasicMaterial,
   LineSegments,
+  Material,
   Mesh,
   MeshBasicMaterial,
+  Object3D,
   RingGeometry,
   SphereGeometry,
   Vector2,
@@ -205,7 +207,30 @@ export function FiveSurfacesDiagram() {
     return () => {
       cancelAnimationFrame(rafId);
       window.removeEventListener("resize", setComposerSize);
+
+      // EffectComposer.dispose() only frees its own renderTargets, NOT the
+      // passes. UnrealBloomPass alone owns 10 RTs + 5 materials + a fullscreen
+      // quad. Walk the passes manually.
+      for (const pass of composer.passes) {
+        const p = pass as { dispose?: () => void };
+        if (typeof p.dispose === "function") p.dispose();
+      }
       composer.dispose();
+
+      // renderer.dispose() does not free geometries/materials we added to the
+      // scene. Walk the tree and dispose each Mesh/LineSegments/Points's geo +
+      // material before tearing down the renderer.
+      handle.scene.traverse((obj: Object3D) => {
+        const m = obj as Mesh & { geometry?: { dispose?: () => void } };
+        if (m.geometry?.dispose) m.geometry.dispose();
+        const mat = (m as Mesh).material as Material | Material[] | undefined;
+        if (Array.isArray(mat)) {
+          for (const x of mat) x.dispose?.();
+        } else {
+          mat?.dispose?.();
+        }
+      });
+
       handle.dispose();
     };
   }, []);

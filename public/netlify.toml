@@ -1,0 +1,63 @@
+# Netlify config for the Vectorbreak static export.
+# Lives in public/ so the build copies it into out/ — picked up automatically
+# when the directory is drag-dropped to Netlify Drop, AND honored when the
+# same out/ is published via a git-linked deploy.
+
+[build]
+  # Reference values for when this is wired to a git auto-deploy. Drag-drop
+  # ignores [build] but it's here so the future git deploy works without edits.
+  command = "npm run build"
+  publish = "out"
+
+# --- Caching ---------------------------------------------------------------
+
+# Next.js fingerprint-hashes everything under _next/static so the contents
+# at a given URL never change — cache forever, immutable.
+[[headers]]
+  for = "/_next/static/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+# Fonts (woff2) are similarly hash-named under _next/static/media.
+[[headers]]
+  for = "/_next/static/media/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+# Public static assets (favicon, svg, etc.) — moderate cache, content rarely
+# changes but we want updates within a day.
+[[headers]]
+  for = "/*.svg"
+  [headers.values]
+    Cache-Control = "public, max-age=86400, must-revalidate"
+
+[[headers]]
+  for = "/favicon.ico"
+  [headers.values]
+    Cache-Control = "public, max-age=86400, must-revalidate"
+
+# HTML must never be cached aggressively — we want users to see new versions
+# of the site immediately after each deploy.
+[[headers]]
+  for = "/*.html"
+  [headers.values]
+    Cache-Control = "public, max-age=0, must-revalidate"
+
+# --- Security baseline -----------------------------------------------------
+
+# CSP allows: self-served everything (next/font self-hosts the Google fonts
+# at build time, so fonts.* hosts are kept only as belt-and-suspenders),
+# inline scripts (Next runtime injects a small hydration bootstrap),
+# inline styles (Framer Motion writes inline style attrs + we have one inline
+# <style> block in Hero.tsx for the scroll-cue keyframe).
+# Inline GLSL shaders in Three.js are passed through the WebGL API, not the
+# HTML script-src path — they are unaffected by CSP.
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Content-Type-Options = "nosniff"
+    X-Frame-Options = "SAMEORIGIN"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+    Permissions-Policy = "camera=(), microphone=(), geolocation=(), interest-cohort=()"
+    Strict-Transport-Security = "max-age=63072000; includeSubDomains; preload"
+    Content-Security-Policy = "default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com data:; img-src 'self' data: blob:; connect-src 'self'; frame-ancestors 'none'; base-uri 'self'; form-action 'self'; object-src 'none'"
